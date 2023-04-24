@@ -63,5 +63,6 @@ module.exports = {
         extensions: ['.ts', '.json', '.js', '.vue']
       }
     }
-  }
+  },
+  ignorePatterns: ['libs/webix']
 };
