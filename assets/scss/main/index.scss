@@ -1,7 +1,7 @@
 @import "./_reset.css";
 @import "./_typography.scss";
 @import "../styleResources/_variables.scss";
-@import "../../../libs/webix/mini.css";
+ @import "webix/webix.css";
 
 /* prevents screen shifts when the scrollbar appears */
 html {

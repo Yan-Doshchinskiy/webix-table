@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import type { IAppContextExtended } from '~/@types/index';
+import type { IAppContextExtended } from './index';
 
 declare module '*.vue' {
   export default Vue;

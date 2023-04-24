@@ -10485,6 +10485,11 @@ webidl-conversions@^3.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
   integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
 
+webix@^6.2.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/webix/-/webix-6.4.0.tgz#6a151f5e0ad676478b346381030494092714a03a"
+  integrity sha512-ymRMHn5z4u4LBWsf9fN7A7xJPUB05NefRGh3CLQUjfOTrLRK3RTiJODMFAuNKtWgWIuFIpcL4FL90MBvHwMgyw==
+
 webpack-bundle-analyzer@^4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-4.8.0.tgz#951b8aaf491f665d2ae325d8b84da229157b1d04"
