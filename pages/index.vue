@@ -1,5 +1,7 @@
 <template>
-  <Tutorial />
+  <div class="main-page">
+    Index page
+  </div>
 </template>
 
 <script lang="ts">
@@ -9,3 +11,9 @@ export default Vue.extend({
   name: 'IndexPage'
 });
 </script>
+
+<style lang="scss" scoped>
+.main-page {
+
+}
+</style>
