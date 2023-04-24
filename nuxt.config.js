@@ -1,3 +1,5 @@
+import localeEN from './locales/en';
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -43,6 +45,22 @@ export default {
     '@nuxtjs/style-resources',
     '@nuxtjs/i18n'
   ],
+
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+    strategy: 'no_prefix',
+    vueI18n: {
+      messages: {
+        en: localeEN
+      }
+    },
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      alwaysRedirect: true
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
