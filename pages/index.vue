@@ -10,11 +10,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import clone from 'lodash.clonedeep';
 
 import WebixDataTable from '~/components/webix/WebixDataTable.vue';
-import '~/core/webix/TableImageCell.scss';
 
 import { getTableImageCellTemplate } from '~/core/webix/TableImageCell';
+import { getTablePositionCellTemplate } from '~/core/webix/TablePositionCell';
 
 import type { IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
 import type { IWebixTableItem, TWebixTableItemsArray } from '~/core/api/types/webix';
@@ -33,18 +34,20 @@ export default Vue.extend({
       headers: [
         {
           id: 'loosesPercent',
-          header: [
-            {
-              text: 'Упущено %'
-            }
-          ],
+          header: [{ text: 'Упущено %' }],
           fillspace: true
+        },
+        {
+          id: 'positionNumber',
+          header: [{ text: 'Позиция' }],
+          fillspace: true,
+          template: (obj: IWebixTableItem) => getTablePositionCellTemplate(obj.positionNumber || 0, obj.positionNumberChange || 0)
         },
         {
           id: 'image',
           header: [{ text: 'Фото' }],
           fillspace: true,
-          template: getTableImageCellTemplate<IWebixTableItem>('image')
+          template: (obj: IWebixTableItem) => getTableImageCellTemplate(obj.image, obj.productWbId)
         }
       ]
     };
@@ -52,7 +55,7 @@ export default Vue.extend({
   computed: {
     immutableHeaders(): Array<IWebixTableHeader<IWebixTableItem>> {
       // We should create deep copy, because  webix mutates component props
-      return JSON.parse(JSON.stringify(this.headers));
+      return clone(this.headers);
     }
   },
   methods: {

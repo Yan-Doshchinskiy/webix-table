@@ -1,0 +1,34 @@
+.table-position-cell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 14px;
+  grid-column-gap: 6px;
+
+  &__change {
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 500;
+    color: $gray-600;
+    background-color: $gray-200;
+
+    &_negative {
+      background-color: $red-200;
+      color: $red-600;
+    }
+
+    &_positive {
+      background-color: $green-200;
+      color: $green-600;
+      &::before {
+        content: '+';
+      }
+    }
+  }
+}
+

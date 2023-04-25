@@ -200,6 +200,8 @@ export interface IWebixRequest {
 export interface IWebixTableItem {
   productWbId: string,
   sellType: string,
+  positionNumber: null | number,
+  positionNumberChange: null | number,
   image: string,
   url: string,
   isNew: boolean,

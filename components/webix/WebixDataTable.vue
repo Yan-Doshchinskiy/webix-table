@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue';
+import Vue from 'vue';
+import type { PropType } from 'vue';
 
 import type webix from 'webix/types/webix';
 
@@ -21,7 +22,7 @@ export interface IWebixTableHeader<K extends Record<string, any> = Record<string
   header: Array<{ text: string }>,
   width?: number,
   fillspace?: number | boolean,
-  template?: string | ((obj: K) => string),
+  template?: string | ((obj: K) => string | number),
 }
 
 type TTableItemsArray<T extends Record<string, any> = Record<string, any>> = Array<T>
