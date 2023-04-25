@@ -14,7 +14,7 @@ import Vue from 'vue';
 import WebixDataTable from '~/components/webix/WebixDataTable.vue';
 import '~/core/webix/TableImageCell.scss';
 
-import { tableImageCellTemplate } from '~/core/webix/TableImageCell';
+import { getTableImageCellTemplate } from '~/core/webix/TableImageCell';
 
 import type { IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
 import type { IWebixTableItem, TWebixTableItemsArray } from '~/core/api/types/webix';
@@ -38,16 +38,13 @@ export default Vue.extend({
               text: 'Упущено %'
             }
           ],
-          fillspace: 10,
-          stars: 5
-
+          fillspace: 10
         },
         {
           id: 'image',
           header: [{ text: 'Фото' }],
           fillspace: 10,
-          template: tableImageCellTemplate,
-          stars: 5
+          template: getTableImageCellTemplate<IWebixTableItem>('image')
         }
       ]
     };
