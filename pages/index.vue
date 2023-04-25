@@ -15,7 +15,8 @@ import clone from 'lodash.clonedeep';
 import WebixDataTable from '~/components/webix/WebixDataTable.vue';
 
 import { getTableImageCellTemplate } from '~/core/webix/TableImageCell';
-import { getTablePositionCellTemplate } from '~/core/webix/TablePositionCell';
+import { getTableBadgeCellTemplate } from '~/core/webix/TableBadgeCell';
+import { getTableLinkCellTemplate } from '~/core/webix/TableLinkCell';
 
 import type { IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
 import type { IWebixTableItem, TWebixTableItemsArray } from '~/core/api/types/webix';
@@ -33,21 +34,106 @@ export default Vue.extend({
     return {
       headers: [
         {
-          id: 'loosesPercent',
-          header: [{ text: 'Упущено %' }],
-          fillspace: true
+          id: 'image',
+          header: [{ text: 'Фото' }],
+          width: 60,
+          template: ({ image, productWbId }) => getTableImageCellTemplate(image, productWbId),
+          tooltip: false
+        },
+        {
+          id: 'name',
+          header: [{ text: 'Товар' }],
+          width: 200,
+          template: ({ name, productWbId }) => getTableLinkCellTemplate(name, `/products/${productWbId}`),
+          tooltip: ({ name }) => name
+        },
+        {
+          id: 'supplier',
+          header: [{ text: 'Поставщик' }],
+          width: 150,
+          template: ({ supplier, wbOrgNameId }) => getTableLinkCellTemplate(supplier, `/suppliers/${wbOrgNameId}`),
+          tooltip: ({ supplier }) => supplier
+        },
+        {
+          id: 'productWbId',
+          header: [{ text: 'Артикул WB' }],
+          width: 100,
+          tooltip: ({ productWbId }) => productWbId
         },
         {
           id: 'positionNumber',
           header: [{ text: 'Позиция' }],
-          fillspace: true,
-          template: (obj: IWebixTableItem) => getTablePositionCellTemplate(obj.positionNumber || 0, obj.positionNumberChange || 0)
+          width: 150,
+          template: ({ positionNumber, positionNumberChange }) => getTableBadgeCellTemplate(positionNumber || 0, positionNumberChange || 0),
+          tooltip: ({ positionNumber }) => positionNumber || 0
         },
         {
-          id: 'image',
-          header: [{ text: 'Фото' }],
-          fillspace: true,
-          template: (obj: IWebixTableItem) => getTableImageCellTemplate(obj.image, obj.productWbId)
+          id: 'subject',
+          header: [{ text: 'Категория' }],
+          width: 150,
+          template: ({ subject, subjectId }) => getTableLinkCellTemplate(subject, `/categories/${subjectId}`),
+          tooltip: ({ subject }) => subject
+        },
+        {
+          id: 'trend',
+          header: [{ text: 'Тренд' }],
+          width: 220,
+          tooltip: false
+        },
+        {
+          id: 'orders',
+          header: [{ text: 'Заказы, шт' }],
+          width: 100,
+          tooltip: ({ orders }) => orders
+        },
+        {
+          id: 'ordersSum',
+          header: [{ text: 'Выручка, ₽' }],
+          width: 100,
+          tooltip: ({ orders }) => orders
+        },
+        {
+          id: 'loosesPercent',
+          header: [{ text: 'Потери %' }],
+          width: 100,
+          tooltip: ({ loosesPercent }) => loosesPercent
+        },
+
+        {
+          id: 'lastRemains',
+          header: [{ text: 'Остатки, шт' }],
+          width: 100,
+          tooltip: ({ lastRemains }) => lastRemains
+        },
+        {
+          id: 'lastPrice',
+          header: [{ text: 'Цена, ₽' }],
+          width: 100,
+          tooltip: ({ lastPrice }) => lastPrice
+        },
+        {
+          id: 'lastDiscountPercent',
+          header: [{ text: 'Скидка, %' }],
+          width: 100,
+          tooltip: ({ lastDiscountPercent }) => lastDiscountPercent
+        },
+        {
+          id: 'positionRating',
+          header: [{ text: 'Рейтинг' }],
+          width: 100,
+          tooltip: ({ positionRating }) => positionRating
+        },
+        {
+          id: 'reviewsRating',
+          header: [{ text: 'Рейтинг по отзывам' }],
+          width: 100,
+          tooltip: ({ reviewsRating }) => reviewsRating
+        },
+        {
+          id: 'reviewsCount',
+          header: [{ text: 'Отзывы, шт' }],
+          width: 100,
+          tooltip: ({ reviewsCount }) => reviewsCount
         }
       ]
     };

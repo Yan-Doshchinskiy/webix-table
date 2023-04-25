@@ -23,6 +23,7 @@ export interface IWebixTableHeader<K extends Record<string, any> = Record<string
   width?: number,
   fillspace?: number | boolean,
   template?: string | ((obj: K) => string | number),
+  tooltip?: string | ((obj: K) => string | number) | boolean,
 }
 
 type TTableItemsArray<T extends Record<string, any> = Record<string, any>> = Array<T>
@@ -75,6 +76,7 @@ export default Vue.extend({
         height: 800,
         columns: this.headers,
         rowHeight: 40,
+        tooltip: true,
         url: {
           $proxy: true,
           load: this.fetchFunction.bind(this)
@@ -105,5 +107,6 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .webix-data-table {
   max-width: 100%;
+  overflow-x: auto;
 }
 </style>
