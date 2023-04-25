@@ -22,7 +22,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   &__content {
-    @include container;
+    @include container(20px);
   }
 }
 </style>
