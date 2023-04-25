@@ -1,0 +1,26 @@
+.table-image-cell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__container {
+    position: relative;
+  }
+
+  &__image {
+    object-fit: cover;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: all 150ms;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+}
+
+

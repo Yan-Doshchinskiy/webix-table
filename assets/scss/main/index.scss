@@ -1,7 +1,8 @@
 @import "./_reset.css";
 @import "./_typography.scss";
 @import "../styleResources/_variables.scss";
- @import "webix/webix.css";
+@import "webix/webix.css";
+@import "../../../core/webix/WebixCommon.scss";
 
 /* prevents screen shifts when the scrollbar appears */
 html {
