@@ -66,6 +66,7 @@ export default Vue.extend({
       this.sliderElement?.destructor();
     },
     subscribeResizeEvent(): void {
+      // @ts-ignore
       this.events.resizeEventId = this.$webix.event(window, 'resize', () => {
         this.sliderElement?.adjust();
       });
