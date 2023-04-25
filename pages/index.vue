@@ -38,12 +38,12 @@ export default Vue.extend({
               text: 'Упущено %'
             }
           ],
-          fillspace: 10
+          fillspace: true
         },
         {
           id: 'image',
           header: [{ text: 'Фото' }],
-          fillspace: 10,
+          fillspace: true,
           template: getTableImageCellTemplate<IWebixTableItem>('image')
         }
       ]

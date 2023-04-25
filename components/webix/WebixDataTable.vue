@@ -20,7 +20,7 @@ export interface IWebixTableHeader<K extends Record<string, any> = Record<string
   id: keyof K,
   header: Array<{ text: string }>,
   width?: number,
-  fillspace?: number,
+  fillspace?: number | boolean,
   template?: string | ((obj: K) => string),
 }
 
