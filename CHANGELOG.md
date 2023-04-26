@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.0.0...v1.0.1) (2023-04-26)
+
+
+### Features
+
+* **main-table:** drag and resize logic added ([852969a](https://github.com/Yan-Doshchinskiy/webix-table/commit/852969ad9704accb4207e8ee896da5fee26e81d1))
+* **main-table:** main table updated ([64d3d2d](https://github.com/Yan-Doshchinskiy/webix-table/commit/64d3d2d2d8fc720488d64efadae28c05a6515fcc))
+* **main-table:** table header style changed ([d6b6f43](https://github.com/Yan-Doshchinskiy/webix-table/commit/d6b6f434bb0909545758beb15c6f2acd0d8c7dd6))
+* **main-table:** table search logic completed ([93babeb](https://github.com/Yan-Doshchinskiy/webix-table/commit/93babeb76d52b1e3c4f0e258ed69cc41bd1cdd2e))
+* **main-table:** trend column completed ([0bec706](https://github.com/Yan-Doshchinskiy/webix-table/commit/0bec706538272e7874627b526ee83ced82405cdd))
+* **ui-components:** ui-input component completed ([5ed14bf](https://github.com/Yan-Doshchinskiy/webix-table/commit/5ed14bf8a57add32e123ed8e2b2593fa50a801ba))
+
+
+### Bug Fixes
+
+* **main-table:** client side table sorting added ([64423d1](https://github.com/Yan-Doshchinskiy/webix-table/commit/64423d1145a4b2252d00b42215c41fa7ca486303))
+* **types:** type errors resolving ([a3f6a37](https://github.com/Yan-Doshchinskiy/webix-table/commit/a3f6a37f8cf350b5e9bf71d9d03c0d8156e74a70))
+
+
+### Style changes
+
+* **fonts:** icomoon font added ([8d6e81b](https://github.com/Yan-Doshchinskiy/webix-table/commit/8d6e81be29f24af8797ed3eea7374c68885bd789))
+* **variables:** transition property value replaced with $transition variable ([3125449](https://github.com/Yan-Doshchinskiy/webix-table/commit/3125449828339c0f0d38ff82d5f9319dfd2ea730))
+
 ## 1.0.0 (2023-04-25)
 
 
