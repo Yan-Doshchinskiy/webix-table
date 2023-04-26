@@ -53,48 +53,48 @@ export default Vue.extend({
       this.headers = [
         {
           id: 'image',
-          header: [{ text: 'Фото' }],
-          width: 60,
+          header: [{ text: 'Фото', css: 'custom-table-header', height: 85 }],
+          width: 80,
           template: ({ image, productWbId }) => getTableImageCellTemplate(image, productWbId),
           tooltip: false
         },
         {
           id: 'name',
-          header: [{ text: 'Товар' }],
+          header: [{ text: 'Товар', css: 'custom-table-header', height: 85 }],
           width: 200,
           template: ({ name, productWbId }) => getTableLinkCellTemplate(name, `/products/${productWbId}`),
           tooltip: ({ name }) => name
         },
         {
           id: 'supplier',
-          header: [{ text: 'Поставщик' }],
+          header: [{ text: 'Поставщик', css: 'custom-table-header', height: 85 }],
           width: 150,
           template: ({ supplier, wbOrgNameId }) => getTableLinkCellTemplate(supplier, `/suppliers/${wbOrgNameId}`),
           tooltip: ({ supplier }) => supplier
         },
         {
           id: 'productWbId',
-          header: [{ text: 'Артикул WB' }],
+          header: [{ text: 'Артикул WB', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ productWbId }) => productWbId
         },
         {
           id: 'positionNumber',
-          header: [{ text: 'Позиция' }],
+          header: [{ text: 'Позиция', css: 'custom-table-header', height: 85 }],
           width: 150,
           template: ({ positionNumber, positionNumberChange }) => getTableBadgeCellTemplate(positionNumber || 0, positionNumberChange || 0),
           tooltip: ({ positionNumber }) => positionNumber || 0
         },
         {
           id: 'subject',
-          header: [{ text: 'Категория' }],
+          header: [{ text: 'Категория', css: 'custom-table-header', height: 85 }],
           width: 150,
           template: ({ subject, subjectId }) => getTableLinkCellTemplate(subject, `/categories/${subjectId}`),
           tooltip: ({ subject }) => subject
         },
         {
           id: 'trend',
-          header: [{ text: 'Тренд' }],
+          header: [{ text: 'Тренд', css: 'custom-table-header', height: 85 }],
           width: 250,
           axis: {
             start: false
@@ -121,56 +121,56 @@ export default Vue.extend({
         },
         {
           id: 'orders',
-          header: [{ text: 'Заказы, шт' }],
+          header: [{ text: 'Заказы, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ orders }) => orders
         },
         {
           id: 'ordersSum',
-          header: [{ text: 'Выручка, ₽' }],
+          header: [{ text: 'Выручка, ₽', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ orders }) => orders
         },
         {
           id: 'loosesPercent',
-          header: [{ text: 'Потери %' }],
+          header: [{ text: 'Потери %', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ loosesPercent }) => loosesPercent
         },
 
         {
           id: 'lastRemains',
-          header: [{ text: 'Остатки, шт' }],
+          header: [{ text: 'Остатки, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ lastRemains }) => lastRemains
         },
         {
           id: 'lastPrice',
-          header: [{ text: 'Цена, ₽' }],
+          header: [{ text: 'Цена, ₽', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ lastPrice }) => lastPrice
         },
         {
           id: 'lastDiscountPercent',
-          header: [{ text: 'Скидка, %' }],
+          header: [{ text: 'Скидка, %', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ lastDiscountPercent }) => lastDiscountPercent
         },
         {
           id: 'positionRating',
-          header: [{ text: 'Рейтинг' }],
+          header: [{ text: 'Рейтинг', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ positionRating }) => positionRating
         },
         {
           id: 'reviewsRating',
-          header: [{ text: 'Рейтинг по отзывам' }],
+          header: [{ text: 'Рейтинг по отзывам', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ reviewsRating }) => reviewsRating
         },
         {
           id: 'reviewsCount',
-          header: [{ text: 'Отзывы, шт' }],
+          header: [{ text: 'Отзывы, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ reviewsCount }) => reviewsCount
         }

@@ -19,7 +19,7 @@ interface IData {
 
 export interface IWebixTableHeader<K extends Record<string, any> = Record<string, any>> {
   id: keyof K,
-  header: Array<{ text: string }>,
+  header: Array<{ text: string, css?: string, height?: number }>,
   width?: number,
   fillspace?: number | boolean,
   template?: string | ((obj: K, common: Record<string, any>, value: K[keyof K], header: IWebixTableHeader<K>, index: number) => string | number),
@@ -79,6 +79,7 @@ export default Vue.extend({
         tooltip: true,
         dragColumn: true,
         resizeColumn: true,
+        css: 'custom-items-table',
         url: {
           $proxy: true,
           load: this.fetchFunction.bind(this)
