@@ -17,9 +17,12 @@ interface IData {
   events: IEvents
 }
 
+type TTableSorting = 'int' | 'date' | 'string' | 'string_strict' | 'text' | 'string_locale' | 'string_locale_strict' | 'text_locale' | 'server' | 'raw'
+
 export interface IWebixTableHeader<K extends Record<string, any> = Record<string, any>> {
   id: keyof K,
   header: Array<{ text: string, css?: string, height?: number }>,
+  sort?: TTableSorting,
   width?: number,
   fillspace?: number | boolean,
   template?: string | ((obj: K, common: Record<string, any>, value: K[keyof K], header: IWebixTableHeader<K>, index: number) => string | number),

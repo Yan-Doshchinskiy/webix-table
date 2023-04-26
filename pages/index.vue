@@ -63,41 +63,46 @@ export default Vue.extend({
           header: [{ text: 'Товар', css: 'custom-table-header', height: 85 }],
           width: 200,
           template: ({ name, productWbId }) => getTableLinkCellTemplate(name, `/products/${productWbId}`),
-          tooltip: ({ name }) => name
+          tooltip: ({ name }) => name,
+          sort: 'string'
         },
         {
           id: 'supplier',
           header: [{ text: 'Поставщик', css: 'custom-table-header', height: 85 }],
           width: 150,
           template: ({ supplier, wbOrgNameId }) => getTableLinkCellTemplate(supplier, `/suppliers/${wbOrgNameId}`),
-          tooltip: ({ supplier }) => supplier
+          tooltip: ({ supplier }) => supplier,
+          sort: 'string'
         },
         {
           id: 'productWbId',
           header: [{ text: 'Артикул WB', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ productWbId }) => productWbId
+          tooltip: ({ productWbId }) => productWbId,
+          sort: 'int'
         },
         {
           id: 'positionNumber',
           header: [{ text: 'Позиция', css: 'custom-table-header', height: 85 }],
           width: 150,
           template: ({ positionNumber, positionNumberChange }) => getTableBadgeCellTemplate(positionNumber || 0, positionNumberChange || 0),
-          tooltip: ({ positionNumber }) => positionNumber || 0
+          tooltip: ({ positionNumber }) => positionNumber || 0,
+          sort: 'int'
         },
         {
           id: 'subject',
           header: [{ text: 'Категория', css: 'custom-table-header', height: 85 }],
           width: 150,
           template: ({ subject, subjectId }) => getTableLinkCellTemplate(subject, `/categories/${subjectId}`),
-          tooltip: ({ subject }) => subject
+          tooltip: ({ subject }) => subject,
+          sort: 'string'
         },
         {
           id: 'trend',
           header: [{ text: 'Тренд', css: 'custom-table-header', height: 85 }],
           width: 250,
           // webix available on client side only
-          template: (cell, common, value, header, index) => {
+          template: (cell, common, value, header, index): string => {
             const formattedTrend = (value as Array<ITrend>).map(({ orders }) => orders);
             // @ts-ignore
             return this.$webix?.Sparklines.getTemplate({ // TODO update types if it possible
@@ -105,7 +110,7 @@ export default Vue.extend({
               color: '#1f73ed'
             })(cell, common, formattedTrend, header, index);
           },
-          tooltip: (it, common, value: ITrend) => {
+          tooltip: (it, common, value: ITrend): string => {
             if (!value) {
               return '';
             }
@@ -118,56 +123,65 @@ export default Vue.extend({
           id: 'orders',
           header: [{ text: 'Заказы, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ orders }) => orders
+          tooltip: ({ orders }) => orders,
+          sort: 'int'
         },
         {
           id: 'ordersSum',
           header: [{ text: 'Выручка, ₽', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ orders }) => orders
+          tooltip: ({ orders }) => orders,
+          sort: 'int'
         },
         {
           id: 'loosesPercent',
           header: [{ text: 'Потери %', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ loosesPercent }) => loosesPercent
+          tooltip: ({ loosesPercent }) => loosesPercent,
+          sort: 'int'
         },
 
         {
           id: 'lastRemains',
           header: [{ text: 'Остатки, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ lastRemains }) => lastRemains
+          tooltip: ({ lastRemains }) => lastRemains,
+          sort: 'int'
         },
         {
           id: 'lastPrice',
           header: [{ text: 'Цена, ₽', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ lastPrice }) => lastPrice
+          tooltip: ({ lastPrice }) => lastPrice,
+          sort: 'int'
         },
         {
           id: 'lastDiscountPercent',
           header: [{ text: 'Скидка, %', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ lastDiscountPercent }) => lastDiscountPercent
+          tooltip: ({ lastDiscountPercent }) => lastDiscountPercent,
+          sort: 'int'
         },
         {
           id: 'positionRating',
           header: [{ text: 'Рейтинг', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ positionRating }) => positionRating
+          tooltip: ({ positionRating }) => positionRating,
+          sort: 'int'
         },
         {
           id: 'reviewsRating',
           header: [{ text: 'Рейтинг по отзывам', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ reviewsRating }) => reviewsRating
+          tooltip: ({ reviewsRating }) => reviewsRating,
+          sort: 'int'
         },
         {
           id: 'reviewsCount',
           header: [{ text: 'Отзывы, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
-          tooltip: ({ reviewsCount }) => reviewsCount
+          tooltip: ({ reviewsCount }) => reviewsCount,
+          sort: 'int'
         }
       ];
     }
