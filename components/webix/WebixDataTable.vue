@@ -77,6 +77,8 @@ export default Vue.extend({
         columns: this.headers,
         rowHeight: 40,
         tooltip: true,
+        dragColumn: true,
+        resizeColumn: true,
         url: {
           $proxy: true,
           load: this.fetchFunction.bind(this)
