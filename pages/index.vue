@@ -1,7 +1,31 @@
 <template>
   <div class="main-page">
     <h2>Товары в категории</h2>
+    <div class="main-page__filters">
+      <div class="main-page__controls">
+        <UiInput
+          id="item-table-search"
+          v-model="search"
+          data-selector="ITEM-TABLE-SEARCH"
+          class="main-page__search"
+          placeholder="Поиск"
+        >
+          <template #iconRight>
+            <i v-if="!search" class="icon-search" />
+            <i v-else class="icon-close" @click="handleClearSearch" />
+          </template>
+        </UiInput>
+        <div class="main-page__favorites">
+          Mock
+        </div>
+      </div>
+      <div class="main-page__settings">
+        Mock
+      </div>
+    </div>
     <WebixDataTable
+      :search="search"
+      :search-fields="searchFields"
       :headers="immutableHeaders"
       :fetch-function="fetchTableItems"
     />
@@ -13,6 +37,7 @@ import Vue from 'vue';
 import clone from 'lodash.clonedeep';
 
 import WebixDataTable from '~/components/webix/WebixDataTable.vue';
+import UiInput from '~/components/ui/UiInput.vue';
 
 import { getTableImageCellTemplate } from '~/core/webix/TableImageCell';
 import { getTableBadgeCellTemplate } from '~/core/webix/TableBadgeCell';
@@ -22,17 +47,22 @@ import type { IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
 import type { IWebixTableItem, TWebixTableItemsArray, ITrend } from '~/core/api/types/webix';
 
 interface IData {
-  headers: Array<IWebixTableHeader<IWebixTableItem>>
+  headers: Array<IWebixTableHeader<IWebixTableItem>>,
+  search: string,
+  searchFields: Array<keyof IWebixTableItem>
 }
 
 export default Vue.extend({
   name: 'IndexPage',
   components: {
-    WebixDataTable
+    WebixDataTable,
+    UiInput
   },
   data(): IData {
     return {
-      headers: []
+      headers: [],
+      search: '',
+      searchFields: ['productWbId', 'name', 'subject', 'supplier']
     };
   },
   computed: {
@@ -48,6 +78,9 @@ export default Vue.extend({
   methods: {
     async fetchTableItems(): Promise<TWebixTableItemsArray> {
       return this.$api.WebixController.fetchTableItems();
+    },
+    handleClearSearch(): void {
+      this.search = '';
     },
     initializeHeaders(): void {
       this.headers = [
@@ -194,5 +227,29 @@ export default Vue.extend({
 .main-page {
   @include page;
   grid-row-gap: 20px;
+  &__title {
+
+  }
+  &__filters {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__controls {
+    display: flex;
+    align-items: center;
+    grid-column-gap: 12px;
+  }
+
+  &__search {
+    max-width: 400px;
+  }
+  &__favorites {
+
+  }
+  &__settings {
+
+  }
 }
 </style>

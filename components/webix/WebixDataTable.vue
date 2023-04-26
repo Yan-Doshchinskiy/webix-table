@@ -8,13 +8,15 @@ import type { PropType } from 'vue';
 
 import type webix from 'webix/types/webix';
 
+import type { IWebixTableItem } from '~/core/api/types/webix';
+
 interface IEvents {
   resizeEventId: string | number | null,
 }
 
 interface IData {
   webixElement: webix.ui.datatable | undefined,
-  events: IEvents
+  events: IEvents,
 }
 
 type TTableSorting = 'int' | 'date' | 'string' | 'string_strict' | 'text' | 'string_locale' | 'string_locale_strict' | 'text_locale' | 'server' | 'raw'
@@ -41,6 +43,14 @@ export default Vue.extend({
     fetchFunction: {
       type: Function as PropType<() => Promise<TTableItemsArray>>,
       required: true
+    },
+    search: {
+      type: String,
+      default: ''
+    },
+    searchFields: {
+      type: Array as PropType<Array<keyof IWebixTableItem>>,
+      default: () => ([])
     }
   },
   data(): IData {
@@ -59,6 +69,11 @@ export default Vue.extend({
         }
         this.webixElement.config.columns = value;
         this.webixElement.refreshColumns();
+      }
+    },
+    search: {
+      handler(value: string) {
+        this.handleSearch(value);
       }
     }
   },
@@ -104,6 +119,13 @@ export default Vue.extend({
       }
       this.$webix.eventRemove(this.events.resizeEventId);
       this.events.resizeEventId = null;
+    },
+    handleSearch(value: string): void {
+      try {
+        this.webixElement?.filter((obj) => this.searchFields.some((key) => obj[key]?.includes(value)));
+      } catch (e) {
+        console.error('webix table handleSearch error', e);
+      }
     }
   }
 
