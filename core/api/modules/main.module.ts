@@ -17,7 +17,7 @@ enum CONTROLLER_URL {
 
 class MainModule extends ApiModule<IMainControllers, IMainModuleOptions> {
   constructor(baseURL: string, options: IMainModuleOptions) {
-    super(baseURL, options, { defaultResponseInterceptor: true });
+    super(baseURL, options, { });
 
     this.controllers = {
       WebixController: new WebixController(this.apiClient, {

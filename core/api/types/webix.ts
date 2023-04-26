@@ -245,15 +245,3 @@ export interface IWebixTableItem {
 }
 
 export type TWebixTableItemsArray = Array<IWebixTableItem>
-
-export interface IWebixTableResponse {
-  status: string,
-  items: TWebixTableItemsArray,
-  totals: ITotals,
-  filters: IFilters,
-  request: IWebixRequest,
-  recordsTotal: number,
-  recordsFiltered: number,
-  draw: number,
-  message: null | string
-}

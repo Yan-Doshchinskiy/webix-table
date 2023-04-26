@@ -17,3 +17,8 @@ export interface IApiModuleConfig {
 export interface IApiControllerOptions {
   controllerUrl?: string,
 }
+
+export interface IMainModuleResponse<T = any> {
+  success: boolean,
+  result: T
+}

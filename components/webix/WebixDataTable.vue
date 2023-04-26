@@ -100,7 +100,7 @@ export default Vue.extend({
         css: 'custom-items-table',
         url: {
           $proxy: true,
-          load: this.fetchFunction.bind(this)
+          load: this.fetchFunction
         }
       }) as webix.ui.datatable;
     },
