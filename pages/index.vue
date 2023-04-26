@@ -96,18 +96,13 @@ export default Vue.extend({
           id: 'trend',
           header: [{ text: 'Тренд', css: 'custom-table-header', height: 85 }],
           width: 250,
-          axis: {
-            start: false
-          },
           // webix available on client side only
-          template: (cell, common, value: Array<ITrend>, header, index) => {
-            const formattedTrend = value.map(({ orders }) => orders);
-            return this.$webix?.Sparklines.getTemplate({
+          template: (cell, common, value, header, index) => {
+            const formattedTrend = (value as Array<ITrend>).map(({ orders }) => orders);
+            // @ts-ignore
+            return this.$webix?.Sparklines.getTemplate({ // TODO update types if it possible
               type: 'bar',
-              color: '#1f73ed',
-              axis: {
-                start: false
-              }
+              color: '#1f73ed'
             })(cell, common, formattedTrend, header, index);
           },
           tooltip: (it, common, value: ITrend) => {
