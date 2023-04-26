@@ -19,7 +19,7 @@ import { getTableBadgeCellTemplate } from '~/core/webix/TableBadgeCell';
 import { getTableLinkCellTemplate } from '~/core/webix/TableLinkCell';
 
 import type { IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
-import type { IWebixTableItem, TWebixTableItemsArray } from '~/core/api/types/webix';
+import type { IWebixTableItem, TWebixTableItemsArray, ITrend } from '~/core/api/types/webix';
 
 interface IData {
   headers: Array<IWebixTableHeader<IWebixTableItem>>
@@ -32,7 +32,25 @@ export default Vue.extend({
   },
   data(): IData {
     return {
-      headers: [
+      headers: []
+    };
+  },
+  computed: {
+    immutableHeaders(): Array<IWebixTableHeader<IWebixTableItem>> {
+      // We should create deep copy, because  webix mutates component props
+      return clone(this.headers);
+    }
+
+  },
+  mounted() {
+    this.initializeHeaders();
+  },
+  methods: {
+    async fetchTableItems(): Promise<TWebixTableItemsArray> {
+      return this.$api.WebixController.fetchTableItems();
+    },
+    initializeHeaders(): void {
+      this.headers = [
         {
           id: 'image',
           header: [{ text: 'Фото' }],
@@ -77,8 +95,29 @@ export default Vue.extend({
         {
           id: 'trend',
           header: [{ text: 'Тренд' }],
-          width: 220,
-          tooltip: false
+          width: 250,
+          axis: {
+            start: false
+          },
+          // webix available on client side only
+          template: (cell, common, value: Array<ITrend>, header, index) => {
+            const formattedTrend = value.map(({ orders }) => orders);
+            return this.$webix?.Sparklines.getTemplate({
+              type: 'bar',
+              color: '#1f73ed',
+              axis: {
+                start: false
+              }
+            })(cell, common, formattedTrend, header, index);
+          },
+          tooltip: (it, common, value: ITrend) => {
+            if (!value) {
+              return '';
+            }
+            const initialDate = new Date(value.date);
+            const date = this.$webix?.Date.dateToStr('%d %M %Y', false)(initialDate) || '';
+            return `${date} <br /> ${value.orders} шт`;
+          }
         },
         {
           id: 'orders',
@@ -135,20 +174,10 @@ export default Vue.extend({
           width: 100,
           tooltip: ({ reviewsCount }) => reviewsCount
         }
-      ]
-    };
-  },
-  computed: {
-    immutableHeaders(): Array<IWebixTableHeader<IWebixTableItem>> {
-      // We should create deep copy, because  webix mutates component props
-      return clone(this.headers);
-    }
-  },
-  methods: {
-    async fetchTableItems(): Promise<TWebixTableItemsArray> {
-      return this.$api.WebixController.fetchTableItems();
+      ];
     }
   }
+
 });
 </script>
 

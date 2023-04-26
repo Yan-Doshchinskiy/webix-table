@@ -1,4 +1,4 @@
-interface ITrend {
+export interface ITrend {
   date: string,
   ordersSum: number,
   orders: number,

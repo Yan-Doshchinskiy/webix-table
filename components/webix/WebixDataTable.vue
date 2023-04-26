@@ -22,8 +22,8 @@ export interface IWebixTableHeader<K extends Record<string, any> = Record<string
   header: Array<{ text: string }>,
   width?: number,
   fillspace?: number | boolean,
-  template?: string | ((obj: K) => string | number),
-  tooltip?: string | ((obj: K) => string | number) | boolean,
+  template?: string | ((obj: K, common: Record<string, any>, value: K[keyof K], header: IWebixTableHeader<K>, index: number) => string | number),
+  tooltip?: string | ((obj: K, common: Record<string, any>, value: any) => string | number) | boolean,
 }
 
 type TTableItemsArray<T extends Record<string, any> = Record<string, any>> = Array<T>

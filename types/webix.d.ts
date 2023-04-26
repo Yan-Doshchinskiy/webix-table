@@ -5,4 +5,6 @@ export interface IAppWebix {
   ui: typeof webix.ui,
   event: typeof webix.event,
   eventRemove: typeof webix.eventRemove,
+  Sparklines: typeof webix.Sparklines,
+  Date: typeof webix.Date,
 }
