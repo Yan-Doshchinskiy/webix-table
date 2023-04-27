@@ -4,17 +4,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import clone from 'lodash.clonedeep';
 
 import type { PropType } from 'vue';
 import type webix from 'webix/types/webix';
 
 interface IEvents {
   resizeEventId: string | number | null,
-}
-
-interface IData {
-  webixElement: webix.ui.datatable | undefined,
-  events: IEvents,
+  columnHideId: string | number | null,
+  columnShowId: string | number | null,
 }
 
 interface ICell {
@@ -46,6 +44,12 @@ export interface IWebixTableHeader<K extends Record<string, any> = Record<string
   tooltip?: string | ((obj: K, common: Record<string, any>, value: any) => string | number) | boolean,
 }
 
+interface IData {
+  webixElement: webix.ui.datatable | undefined,
+  events: IEvents,
+  localHeaders: Array<IWebixTableHeader>
+}
+
 type TTableItemsArray<T extends Record<string, any> = Record<string, any>> = Array<T>
 
 export interface ITableConfig {
@@ -58,6 +62,8 @@ export interface ITableConfig {
 }
 
 export type TTableConfigProps = Partial<ITableConfig>
+
+export type TTableElementVisibility = 'visible' | 'hidden'
 
 export default Vue.extend({
   name: 'WebixDataTable',
@@ -85,11 +91,15 @@ export default Vue.extend({
     return {
       webixElement: undefined,
       events: {
-        resizeEventId: null
-      }
+        resizeEventId: null,
+        columnHideId: null,
+        columnShowId: null
+      },
+      localHeaders: []
     };
   },
   computed: {
+
     tableConfig(): ITableConfig {
       return {
         height: 800,
@@ -122,31 +132,25 @@ export default Vue.extend({
     headers: {
       deep: true,
       handler(value: Array<IWebixTableHeader>) {
-        if (!this.webixElement) {
-          return;
-        }
-        this.webixElement.config.columns = value;
-        this.webixElement.refreshColumns();
+        this.resetColumns(value);
       }
     },
     tableData: {
       deep: true,
       handler(value: TTableItemsArray) {
-        if (!this.webixElement) {
-          return;
-        }
-        this.webixElement.clearAll();
-        this.webixElement.parse(value, 'json');
+        this.resetRows(value);
       }
     }
   },
   mounted() {
     this.initTableElement();
     this.subscribeResizeEvent();
+    this.subscribeColumnsEvents();
   },
   destroyed() {
     this.unsubscribeResizeEvent();
     this.destroyTableElement();
+    this.unsubscribeColumnsEvents();
   },
   methods: {
     initTableElement(): void {
@@ -154,7 +158,7 @@ export default Vue.extend({
         container: this.$el,
         $scope: this,
         view: 'datatable',
-        columns: this.headers,
+        columns: this.localHeaders,
         data: this.tableData,
         onClick: this.onClickListener,
         ...this.tableConfig
@@ -169,12 +173,78 @@ export default Vue.extend({
         this.webixElement?.adjust();
       });
     },
+    subscribeColumnsEvents(): void {
+      if (!this.webixElement) {
+        return;
+      }
+      this.events.columnHideId = this.webixElement.attachEvent('onAfterColumnHide', (key: string) => {
+        this.emitColumnVisibility(key, 'hidden');
+      });
+      this.events.columnShowId = this.webixElement.attachEvent('onAfterColumnShow', (key: string) => {
+        this.emitColumnVisibility(key, 'visible');
+      });
+    },
     unsubscribeResizeEvent(): void {
       if (this.events.resizeEventId === null) {
         return;
       }
       this.$webix.eventRemove(this.events.resizeEventId);
       this.events.resizeEventId = null;
+    },
+    unsubscribeColumnsEvents():void {
+      if (!this.webixElement) {
+        return;
+      }
+      if (typeof this.events.columnHideId === 'string') {
+        this.webixElement.detachEvent(this.events.columnHideId);
+      }
+      if (typeof this.events.columnShowId === 'string') {
+        this.webixElement.detachEvent(this.events.columnShowId);
+      }
+    },
+    showColumn(key: string) {
+      try {
+        this.webixElement?.showColumn(key);
+      } catch (e) {
+        console.error('showColumn error', e);
+      }
+    },
+    hideColumn(key: string) {
+      try {
+        this.webixElement?.hideColumn(key);
+      } catch (e) {
+        console.error('hideColumn error', e);
+      }
+    },
+    resetTable() {
+      try {
+        this.resetColumns(this.headers);
+        this.resetRows(this.tableData);
+        this.emitResetTable();
+      } catch (e) {
+        console.error('resetTable error', e);
+      }
+    },
+    resetColumns(value: Array<IWebixTableHeader>) {
+      if (!this.webixElement) {
+        return;
+      }
+      this.localHeaders = clone(value);
+      this.webixElement.config.columns = this.localHeaders;
+      this.webixElement.refreshColumns();
+    },
+    resetRows(value: TTableItemsArray) {
+      if (!this.webixElement) {
+        return;
+      }
+      this.webixElement.clearAll();
+      this.webixElement.parse(value, 'json');
+    },
+    emitColumnVisibility(key: string, status: TTableElementVisibility) {
+      this.$emit('column-visibility', key, status);
+    },
+    emitResetTable() {
+      this.$emit('reset-table');
     }
   }
 
