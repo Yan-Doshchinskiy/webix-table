@@ -16,17 +16,14 @@
             <i v-else class="icon-close" @click="handleClearSearch" />
           </template>
         </UiInput>
-
-        <div class="main-page__favorites">
-          <input
-            id="favorites-checkbox"
-            v-model="favoritesModel"
-            :disabled="IsLoadingLocal"
-            type="checkbox"
-            @input="handleCheckFavorites"
-          >
-          <label for="favorites-checkbox">Только избранные</label>
-        </div>
+        <UiCheckbox
+          id="favorites-checkbox"
+          v-model="favoriteCheckboxModel"
+          class="main-page__favorites"
+          :option="favoriteCheckboxOptions"
+          :disabled="IsLoadingLocal"
+          @input="handleCheckFavorites"
+        />
       </div>
       <div class="main-page__settings">
         Stub
@@ -44,8 +41,9 @@
 import Vue from 'vue';
 import clone from 'lodash.clonedeep';
 
-import WebixDataTable from '~/components/webix/WebixDataTable.vue';
+import UiCheckbox, { ICheckboxOptions, TCheckboxOptionsArray } from '~/components/ui/UiCheckbox.vue';
 import UiInput from '~/components/ui/UiInput.vue';
+import WebixDataTable from '~/components/webix/WebixDataTable.vue';
 
 import Debouncer from '~/mixins/Debouncer';
 import LoadingAdditional from '~/mixins/LoadingAdditional';
@@ -57,14 +55,21 @@ import { getTableFavoriteCellTemplate } from '~/core/webix/TableFavoritesCell';
 
 import type { VueConstructor } from 'vue';
 import type { ITableListeners, IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
-import type { IWebixTableItem, TWebixTableItemsArray, ITrend, ITableFetchOptions } from '~/core/api/types/webix';
+import type {
+  IWebixTableItem,
+  TWebixTableItemsArray,
+  ITrend,
+  ITableFetchOptions,
+  TTableItemFavorite
+} from '~/core/api/types/webix';
 
 interface IData {
   headers: Array<IWebixTableHeader<IWebixTableItem>>,
   search: string,
   searchFields: Array<keyof IWebixTableItem>,
   tableData: TWebixTableItemsArray,
-  favoritesModel: boolean,
+  favoriteCheckboxModel: TCheckboxOptionsArray<TTableItemFavorite>,
+  favoriteCheckboxOptions: ICheckboxOptions<TTableItemFavorite>
 }
 
 const FAVORITE_SELECTOR = 'favorite-icon-click';
@@ -74,8 +79,9 @@ type TIndexPage = VueConstructor<Vue & InstanceType<typeof Debouncer> & Instance
 export default (Vue as TIndexPage).extend({
   name: 'IndexPage',
   components: {
-    WebixDataTable,
-    UiInput
+    UiCheckbox,
+    UiInput,
+    WebixDataTable
   },
   mixins: [Debouncer, LoadingAdditional],
   data(): IData {
@@ -84,7 +90,11 @@ export default (Vue as TIndexPage).extend({
       search: '',
       searchFields: ['productWbId', 'name', 'subject', 'supplier'],
       tableData: [],
-      favoritesModel: false
+      favoriteCheckboxModel: [],
+      favoriteCheckboxOptions: {
+        label: 'Избранное',
+        value: 'f'
+      }
     };
   },
   computed: {
@@ -92,7 +102,7 @@ export default (Vue as TIndexPage).extend({
       return {
         searchFields: this.searchFields,
         search: this.search,
-        favorites: this.favoritesModel ? 'f' : 'n'
+        favorites: this.favoriteCheckboxModel.some(({ value }) => value === 'f') ? 'f' : 'n'
       };
     },
     immutableHeaders(): Array<IWebixTableHeader<IWebixTableItem>> {
@@ -152,11 +162,8 @@ export default (Vue as TIndexPage).extend({
         this.FinishLoadingAdditional();
       }
     },
-    async handleCheckFavorites({ target }: {target: HTMLInputElement}) {
-      const isChecked = target.checked;
-      await this.fetchTableItems({
-        favorites: isChecked ? 'f' : 'n'
-      });
+    async handleCheckFavorites(): Promise<void> {
+      await this.fetchTableItems({});
     },
     async handleSearch(): Promise<void> {
       this.DebounceFunction(this.fetchTableItems.bind(this, {}), 1000);

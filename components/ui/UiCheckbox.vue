@@ -30,10 +30,12 @@ import Vue from 'vue';
 import type { PropType } from 'vue';
 import type { TComputedStyle } from '~/types/ui';
 
-export interface ICheckboxOptions {
-  value: string,
+export interface ICheckboxOptions<V = string> {
+  value: V,
   label: string
 }
+
+export type TCheckboxOptionsArray<V = string> = Array<ICheckboxOptions<V>>
 
 export default Vue.extend({
   name: 'BaseCheckbox',
@@ -47,7 +49,7 @@ export default Vue.extend({
       required: true
     },
     value: {
-      type: Array as PropType<Array<ICheckboxOptions>>,
+      type: Array as PropType<TCheckboxOptionsArray>,
       required: true
     },
     multiple: {

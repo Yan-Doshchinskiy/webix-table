@@ -246,7 +246,7 @@ export interface IWebixTableItem {
 
 export type TWebixTableItemsArray = Array<IWebixTableItem>
 
-type TTableItemFavorite = 'f' | 'n'
+export type TTableItemFavorite = 'f' | 'n'
 
 export interface ITableFetchOptions {
   favorites: TTableItemFavorite,
