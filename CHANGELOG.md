@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.0.2...v1.1.0) (2023-04-27)
+
+
+### Features
+
+* **main-page:** ui-input replaced with ui-search-input, add button stub ([fe37956](https://github.com/Yan-Doshchinskiy/webix-table/commit/fe37956cc6df450f87d578e105266bd526599022))
+* **main-table:** table setting logic completed ([6892f2c](https://github.com/Yan-Doshchinskiy/webix-table/commit/6892f2cc3c475585cec3986e22a164ac6a216547))
+* **modals:** base modals logic implemented ([a6459a5](https://github.com/Yan-Doshchinskiy/webix-table/commit/a6459a5c11e1ff2e049db0ebcce34d5d23bf6456))
+* **modals:** table-settings modal completed ([3e46b78](https://github.com/Yan-Doshchinskiy/webix-table/commit/3e46b78336e3ec5018a970d5ff558bc1c3906a03))
+* **ui-components:** add new ui-button variant ([28e49f0](https://github.com/Yan-Doshchinskiy/webix-table/commit/28e49f0ba38e7fd5bcf568b097cf3baee4c03025))
+* **ui-components:** ui-button component completed ([efbc267](https://github.com/Yan-Doshchinskiy/webix-table/commit/efbc26746b5147d05d13e82e6e76a41b245bb68c))
+* **ui-components:** ui-checkbox component completed ([58dfcf7](https://github.com/Yan-Doshchinskiy/webix-table/commit/58dfcf74baeab7935f23241a9b373bc01996947b))
+* **ui-components:** ui-input-search component completed ([e4c98dd](https://github.com/Yan-Doshchinskiy/webix-table/commit/e4c98ddc896d2588c978ab671a7b0e9357c00081))
+* **webix-components:** add reset functionality ([1bdcf3c](https://github.com/Yan-Doshchinskiy/webix-table/commit/1bdcf3cd9288062d98da3b962b89e2ce21cdf796))
+
+
+### Refactor
+
+* **main-table:** checkbox replaced with ui-checkbox ([56e301e](https://github.com/Yan-Doshchinskiy/webix-table/commit/56e301e9f15473f60bf9e28ab90022232d6dc9bc))
+* **main-table:** table config replaced with props and default values ([9910d6a](https://github.com/Yan-Doshchinskiy/webix-table/commit/9910d6a2f8d41d57acefb79b305353f8b64ced40))
+
+
+### Style changes
+
+* **fonts:** icomoon font updated ([d2bbfd3](https://github.com/Yan-Doshchinskiy/webix-table/commit/d2bbfd3c127101f38e1e0a41d0f4be3d84b378b5))
+* **fonts:** inconsolata font added, icomoon updated ([9f5be4b](https://github.com/Yan-Doshchinskiy/webix-table/commit/9f5be4b09d61265bbdef6085b83bb98a570612fd))
+* **locale:** default locale changed, add title locale ([3776198](https://github.com/Yan-Doshchinskiy/webix-table/commit/37761984f3b78f9442284d5fdd41b72d169f1f10))
+* **main-page:** stub button replaced with ui-button ([5f31efc](https://github.com/Yan-Doshchinskiy/webix-table/commit/5f31efc0460cba8b382ee5749a5753011fe03e8d))
+* **variables:** add new scss variables ([272e42c](https://github.com/Yan-Doshchinskiy/webix-table/commit/272e42cf450e669702664020b8ffc6e37b0f099f))
+* **variables:** gray color variables replaced with black color ([c858cab](https://github.com/Yan-Doshchinskiy/webix-table/commit/c858cab42cd3b0897170c51cae08cc965dee95ff))
+
+
+### CI
+
+* **deploy:** vercel config changed ([9872177](https://github.com/Yan-Doshchinskiy/webix-table/commit/9872177895faf972b733b99e9dbdac2bb7b9abcd))
+
 ### [1.0.2](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.0.1...v1.0.2) (2023-04-27)
 
 
