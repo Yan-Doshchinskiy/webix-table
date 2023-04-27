@@ -9,25 +9,33 @@
           data-selector="ITEM-TABLE-SEARCH"
           class="main-page__search"
           placeholder="Поиск"
+          @input="handleSearch"
         >
           <template #iconRight>
             <i v-if="!search" class="icon-search" />
             <i v-else class="icon-close" @click="handleClearSearch" />
           </template>
         </UiInput>
+
         <div class="main-page__favorites">
-          Mock
+          <input
+            id="favorites-checkbox"
+            v-model="favoritesModel"
+            :disabled="IsLoadingLocal"
+            type="checkbox"
+            @input="handleCheckFavorites"
+          >
+          <label for="favorites-checkbox">Только избранные</label>
         </div>
       </div>
       <div class="main-page__settings">
-        Mock
+        Stub
       </div>
     </div>
     <WebixDataTable
-      :search="search"
-      :search-fields="searchFields"
+      :listeners="tableListeners"
       :headers="immutableHeaders"
-      :fetch-function="fetchTableItems"
+      :table-data="tableData"
     />
   </div>
 </template>
@@ -39,48 +47,123 @@ import clone from 'lodash.clonedeep';
 import WebixDataTable from '~/components/webix/WebixDataTable.vue';
 import UiInput from '~/components/ui/UiInput.vue';
 
+import Debouncer from '~/mixins/Debouncer';
+import LoadingAdditional from '~/mixins/LoadingAdditional';
+
 import { getTableImageCellTemplate } from '~/core/webix/TableImageCell';
 import { getTableBadgeCellTemplate } from '~/core/webix/TableBadgeCell';
 import { getTableLinkCellTemplate } from '~/core/webix/TableLinkCell';
+import { getTableFavoriteCellTemplate } from '~/core/webix/TableFavoritesCell';
 
-import type { IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
-import type { IWebixTableItem, TWebixTableItemsArray, ITrend } from '~/core/api/types/webix';
+import type { VueConstructor } from 'vue';
+import type { ITableListeners, IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
+import type { IWebixTableItem, TWebixTableItemsArray, ITrend, ITableFetchOptions } from '~/core/api/types/webix';
 
 interface IData {
   headers: Array<IWebixTableHeader<IWebixTableItem>>,
   search: string,
-  searchFields: Array<keyof IWebixTableItem>
+  searchFields: Array<keyof IWebixTableItem>,
+  tableData: TWebixTableItemsArray,
+  favoritesModel: boolean,
 }
 
-export default Vue.extend({
+const FAVORITE_SELECTOR = 'favorite-icon-click';
+
+type TIndexPage = VueConstructor<Vue & InstanceType<typeof Debouncer> & InstanceType<typeof LoadingAdditional>>
+
+export default (Vue as TIndexPage).extend({
   name: 'IndexPage',
   components: {
     WebixDataTable,
     UiInput
   },
+  mixins: [Debouncer, LoadingAdditional],
   data(): IData {
     return {
       headers: [],
       search: '',
-      searchFields: ['productWbId', 'name', 'subject', 'supplier']
+      searchFields: ['productWbId', 'name', 'subject', 'supplier'],
+      tableData: [],
+      favoritesModel: false
     };
   },
   computed: {
+    fetchOptions(): ITableFetchOptions {
+      return {
+        searchFields: this.searchFields,
+        search: this.search,
+        favorites: this.favoritesModel ? 'f' : 'n'
+      };
+    },
     immutableHeaders(): Array<IWebixTableHeader<IWebixTableItem>> {
       // We should create deep copy, because  webix mutates component props
       return clone(this.headers);
+    },
+    tableListeners(): ITableListeners {
+      return {
+        onClick: {
+          [FAVORITE_SELECTOR]: async ({ isFavorite, productWbId }: IWebixTableItem): Promise<void> => {
+            if (this.IsLoadingAdditional || this.IsLoadingLocal) {
+              return;
+            }
+            const method = isFavorite ? this.handleDeleteFavorites : this.handleAddFavorites;
+            await method(productWbId);
+            await this.fetchTableItems({});
+          }
+        }
+      };
     }
-
   },
-  mounted() {
+  async mounted() {
     this.initializeHeaders();
+    await this.fetchTableItems({});
   },
   methods: {
-    async fetchTableItems(): Promise<TWebixTableItemsArray> {
-      return this.$api.WebixController.fetchTableItems();
+    async fetchTableItems(options: Partial<ITableFetchOptions>): Promise<void> {
+      try {
+        this.StartLoadingLocal();
+        this.tableData = await this.$api.WebixController.fetchTableItems({
+          ...this.fetchOptions,
+          ...options
+        });
+      } catch (e) {
+        console.error('fetchTableItems error', e);
+      } finally {
+        this.FinishLoadingLocal();
+      }
     },
-    handleClearSearch(): void {
+    async handleAddFavorites(id: string): Promise<void> {
+      try {
+        this.StartLoadingAdditional();
+        await this.$api.WebixController.addFavorites(id);
+      } catch (e) {
+        console.error('handleAddFavorites error', e);
+      } finally {
+        this.FinishLoadingAdditional();
+      }
+    },
+    async handleDeleteFavorites(id: string): Promise<void> {
+      try {
+        this.StartLoadingAdditional();
+        await this.$api.WebixController.deleteFavorites(id);
+      } catch (e) {
+        console.error('handleAddFavorites error', e);
+      } finally {
+        this.FinishLoadingAdditional();
+      }
+    },
+    async handleCheckFavorites({ target }: {target: HTMLInputElement}) {
+      const isChecked = target.checked;
+      await this.fetchTableItems({
+        favorites: isChecked ? 'f' : 'n'
+      });
+    },
+    async handleSearch(): Promise<void> {
+      this.DebounceFunction(this.fetchTableItems.bind(this, {}), 1000);
+    },
+    async handleClearSearch(): Promise<void> {
       this.search = '';
+      await this.fetchTableItems({});
     },
     initializeHeaders(): void {
       this.headers = [
@@ -89,6 +172,13 @@ export default Vue.extend({
           header: [{ text: 'Фото', css: 'custom-table-header', height: 85 }],
           width: 80,
           template: ({ image, productWbId }) => getTableImageCellTemplate(image, productWbId),
+          tooltip: false
+        },
+        {
+          id: 'isFavorite',
+          header: [{ text: 'Избранное', css: 'custom-table-header', height: 85 }],
+          width: 80,
+          template: ({ isFavorite }) => getTableFavoriteCellTemplate(isFavorite, FAVORITE_SELECTOR),
           tooltip: false
         },
         {

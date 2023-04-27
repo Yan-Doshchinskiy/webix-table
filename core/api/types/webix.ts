@@ -245,3 +245,11 @@ export interface IWebixTableItem {
 }
 
 export type TWebixTableItemsArray = Array<IWebixTableItem>
+
+type TTableItemFavorite = 'f' | 'n'
+
+export interface ITableFetchOptions {
+  favorites: TTableItemFavorite,
+  search: string,
+  searchFields: Array<keyof IWebixTableItem>
+}

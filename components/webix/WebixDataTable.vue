@@ -8,8 +8,6 @@ import type { PropType } from 'vue';
 
 import type webix from 'webix/types/webix';
 
-import type { IWebixTableItem } from '~/core/api/types/webix';
-
 interface IEvents {
   resizeEventId: string | number | null,
 }
@@ -17,6 +15,23 @@ interface IEvents {
 interface IData {
   webixElement: webix.ui.datatable | undefined,
   events: IEvents,
+}
+
+interface ICell {
+  column: string,
+  row: number
+}
+
+export interface ISingleListener<D = any> {
+  [key: string]: (obj: D) => boolean | void | Promise<boolean | void>
+}
+
+interface IWebixListener {
+  [key: string]: (e: PointerEvent, cell: ICell, target: Element) => boolean | void | Promise<boolean | void>
+}
+
+export interface ITableListeners<D = any> {
+  onClick?: ISingleListener<D>
 }
 
 type TTableSorting = 'int' | 'date' | 'string' | 'string_strict' | 'text' | 'string_locale' | 'string_locale_strict' | 'text_locale' | 'server' | 'raw'
@@ -40,17 +55,15 @@ export default Vue.extend({
       type: Array as PropType<Array<IWebixTableHeader>>,
       required: true
     },
-    fetchFunction: {
-      type: Function as PropType<() => Promise<TTableItemsArray>>,
-      required: true
-    },
-    search: {
-      type: String,
-      default: ''
-    },
-    searchFields: {
-      type: Array as PropType<Array<keyof IWebixTableItem>>,
+    tableData: {
+      type: Array as PropType<TTableItemsArray>,
       default: () => ([])
+    },
+    listeners: {
+      type: Object as PropType<ITableListeners>,
+      default: () => ({
+        onClick: {}
+      })
     }
   },
   data(): IData {
@@ -61,8 +74,27 @@ export default Vue.extend({
       }
     };
   },
+  computed: {
+    onClickListener(): IWebixListener {
+      if (!this.listeners?.onClick) {
+        return {};
+      }
+      const array = Object.entries(this.listeners.onClick);
+      const result: IWebixListener = {};
+      for (let i = 0; i < array.length; i += 1) {
+        const [key, cb] = array[i];
+        result[key] = async (_: PointerEvent, cell: ICell): Promise<void> => {
+          const data = this.webixElement?.getItem(cell.row);
+          await cb(data);
+        };
+      }
+
+      return result;
+    }
+  },
   watch: {
     headers: {
+      deep: true,
       handler(value: Array<IWebixTableHeader>) {
         if (!this.webixElement) {
           return;
@@ -71,9 +103,14 @@ export default Vue.extend({
         this.webixElement.refreshColumns();
       }
     },
-    search: {
-      handler(value: string) {
-        this.handleSearch(value);
+    tableData: {
+      deep: true,
+      handler(value: TTableItemsArray) {
+        if (!this.webixElement) {
+          return;
+        }
+        this.webixElement.clearAll();
+        this.webixElement.parse(value, 'json');
       }
     }
   },
@@ -98,10 +135,8 @@ export default Vue.extend({
         dragColumn: true,
         resizeColumn: true,
         css: 'custom-items-table',
-        url: {
-          $proxy: true,
-          load: this.fetchFunction
-        }
+        data: this.tableData,
+        onClick: this.onClickListener
       }) as webix.ui.datatable;
     },
     destroyTableElement(): void {
@@ -119,13 +154,6 @@ export default Vue.extend({
       }
       this.$webix.eventRemove(this.events.resizeEventId);
       this.events.resizeEventId = null;
-    },
-    handleSearch(value: string): void {
-      try {
-        this.webixElement?.filter((obj) => this.searchFields.some((key) => obj[key]?.includes(value)));
-      } catch (e) {
-        console.error('webix table handleSearch error', e);
-      }
     }
   }
 
