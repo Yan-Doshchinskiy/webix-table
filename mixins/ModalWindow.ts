@@ -1,10 +1,11 @@
-import Vue, { PropType, VueConstructor } from 'vue';
+import Vue from 'vue';
 
 import ModalBox from '~/components/modals/ModalBox/index.vue';
 
 import LoadingLocal from '~/mixins/LoadingLocal';
 import ModalControl from '~/mixins/ModalControl';
 
+import type { PropType, VueConstructor } from 'vue';
 import type { TLoadingStatus } from '~/mixins/LoadingLocal';
 import type { IStoreModalOptions, MODAL_TYPE } from '~/store/types/main';
 

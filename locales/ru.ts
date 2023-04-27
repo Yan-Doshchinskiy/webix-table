@@ -1,11 +1,14 @@
 export default {
   modals: {
     tableSettings: {
-      title: 'Table settings'
+      title: 'Настройки'
     }
   },
   buttons: {
-    tableSettings: 'Table settings'
+    cancel: 'Отмена',
+    reset: 'Сброс',
+    save: 'Сохранить',
+    tableSettings: 'Настройки'
   },
   tables: {
     main: {

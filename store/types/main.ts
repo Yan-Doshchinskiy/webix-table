@@ -1,13 +1,14 @@
 import Vue from 'vue';
 
-import type { VueConstructor } from 'vue';
 import type ModalWindow from '~/mixins/ModalWindow';
+import type { VueConstructor } from 'vue';
+import type { TCheckboxOptionsArray } from '~/components/ui/UiCheckbox.vue';
+import type { IWebixTableItem } from '~/core/api/types/webix';
+import type { IColumnsDifference } from '~/components/modals/TableSettings.vue';
 
 export enum MODAL_TYPE {
   tableSettings = 'tableSettings'
 }
-
-export type TModalType = typeof MODAL_TYPE[keyof typeof MODAL_TYPE]
 
 export interface IModalHandlers {
   // onSuccess?: <D = any>(data?: D) => void | Promise<void>,
@@ -19,13 +20,16 @@ export interface IModalPropsDefault extends IModalHandlers {
   isUnclosable?: boolean,
 }
 
-export interface IModalHandlersPayload extends Record<TModalType, Record<string, any>>{
-  [MODAL_TYPE.tableSettings]: { },
+export interface IModalHandlersPayload extends Record<MODAL_TYPE, Record<string, any>>{
+  [MODAL_TYPE.tableSettings]: IColumnsDifference,
 }
 
-export interface IModalProps extends Record<TModalType, Record<string, any>>{
+export interface IModalProps extends Record<MODAL_TYPE, Record<string, any>>{
   [MODAL_TYPE.tableSettings]: {
-
+    checkboxes: TCheckboxOptionsArray<keyof IWebixTableItem>,
+    hiddenHeaders: Array<keyof IWebixTableItem>,
+    handler: (difference: IModalHandlersPayload[MODAL_TYPE.tableSettings]) => Promise<void> | void
+    resetHandler: () => Promise<void> | void
   }
 }
 
