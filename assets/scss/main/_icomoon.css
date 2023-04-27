@@ -35,5 +35,8 @@
   content: "\e986";
 }
 .icon-checkmark:before {
-  content: "\ea10";
+  content: "\ea11";
+}
+.icon-cog:before {
+  content: "\e994";
 }

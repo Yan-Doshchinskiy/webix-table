@@ -4,8 +4,8 @@
     @input="emitInput"
   >
     <template #iconRight>
-      <i v-if="!value" class="icon-search" />
-      <i v-else class="icon-close" @click="emitClear" />
+      <i v-if="!value" class="icon-search search-input-icon" />
+      <i v-else class="icon-close search-input-icon" @click="emitClear" />
     </template>
   </UiInput>
 </template>
@@ -30,3 +30,12 @@ export default UiInput.extend({
   }
 });
 </script>
+<style lang="scss" scoped>
+.search-input-icon {
+  display: flex;
+  align-items: center;
+  &:before {
+    font-size: 12px;
+  }
+}
+</style>

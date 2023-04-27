@@ -103,9 +103,8 @@ export default Vue.extend({
     }
   }
   &__label {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 20px;
-
   }
   &__input {
 
@@ -115,8 +114,8 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 16px;
-    min-width: 16px;
+    min-height: 14px;
+    min-width: 14px;
     border-radius: 4px;
     border: 2px solid $main-black;
     transition: $transition;

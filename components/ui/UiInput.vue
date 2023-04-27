@@ -101,7 +101,7 @@ export default Vue.extend({
   }
   &__label {
     font-size: 16px;
-    line-height: 24px;
+    line-height: 20px;
     margin-bottom: 8px;
     color: $main-black;
   }
@@ -114,8 +114,8 @@ export default Vue.extend({
     width: 100%;
     border-radius: 12px;
     padding: 8px 12px;
-    font-size: 20px;
-    line-height: 28px;
+    font-size: 14px;
+    line-height: 18px;
     color: $gray-600;
     background: transparent;
     border: 2px solid $gray-200;

@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'Inconsolata';
+  src: local('Inconsolata-ExtraLight'),
+  local('Inconsolata-Web'),
+  local('InconsolataWeb'),
+  url('../../fonts/Inconsolata/Inconsolata-ExtraLight.woff2');
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inconsolata';
+  src: local('Inconsolata-Regular'),
+  local('Inconsolata-Web'),
+  local('InconsolataWeb'),
+  url('../../fonts/Inconsolata/Inconsolata-Regular.woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inconsolata';
+  src: local('Inconsolata-Bold'),
+  local('Inconsolata-Web'),
+  local('InconsolataWeb'),
+  url('../../fonts/Inconsolata/Inconsolata-Bold.woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
