@@ -122,7 +122,7 @@ export default (Vue as TModalContainer).extend({
     align-items: center;
     justify-content: center;
     background: rgba(#000000, .9);
-    padding: 20px 0;
+    padding: 20px 10px;
     margin: auto;
     overflow: auto;
     &_hidden {

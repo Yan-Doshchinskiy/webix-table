@@ -37,6 +37,8 @@ export interface ICheckboxOptions<V = string> {
 
 export type TCheckboxOptionsArray<V = string> = Array<ICheckboxOptions<V>>
 
+type TCheckboxMode = 'multi' | 'single'
+
 export default Vue.extend({
   name: 'BaseCheckbox',
   props: {
@@ -52,9 +54,9 @@ export default Vue.extend({
       type: Array as PropType<TCheckboxOptionsArray>,
       required: true
     },
-    multiple: {
-      type: Boolean,
-      default: false
+    mode: {
+      type: String as PropType<TCheckboxMode>,
+      default: 'single'
     },
     disabled: {
       type: Boolean,
@@ -75,7 +77,7 @@ export default Vue.extend({
   },
   methods: {
     handleInput():void {
-      if (this.multiple) {
+      if (this.mode === 'multi') {
         const result = !this.isChecked
           ? [...this.value, this.option]
           : this.value.filter((it: ICheckboxOptions) => it.value !== this.option.value);
@@ -99,7 +101,7 @@ export default Vue.extend({
   grid-column-gap: 12px;
   &:hover {
     .checkbox__custom {
-      background-color: $gray-100;
+      background-color: $black-100;
     }
   }
   &__label {
@@ -121,8 +123,8 @@ export default Vue.extend({
     transition: $transition;
 
     &_disabled {
-      background-color: $gray-100;
-      border: 2px solid $gray-600;
+      background-color: $black-100;
+      border: 2px solid $black-600;
     }
   }
 

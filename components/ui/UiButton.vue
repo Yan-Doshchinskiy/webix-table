@@ -28,7 +28,7 @@ import Vue from 'vue';
 
 import type { PropType } from 'vue';
 
-type TButtonVariant = 'primary' | 'secondary'
+type TButtonVariant = 'primary' | 'secondary' | 'danger'
 type TButtonSize = 'big' | 'regular' | 'small'
 
 export default Vue.extend({
@@ -76,10 +76,10 @@ export default Vue.extend({
     color: $main-white;
     background: $main-black;
     &:hover {
-      background: $gray-700;
+      background: $black-700;
     }
     &:active {
-      background: $gray-800;
+      background: $black-800;
     }
   }
   &_secondary {
@@ -87,17 +87,29 @@ export default Vue.extend({
     background: transparent;
     border: 2px solid $main-black;
     &:hover {
-      background: $gray-100;
-      border: 2px solid $gray-600;
+      background: $black-100;
+      border: 2px solid $black-600;
     }
     &:active {
-      background: $gray-200;
+      background: $black-200;
+    }
+  }
+  &_danger {
+    color: $red-800;
+    background: transparent;
+    border: 2px solid $red-800;
+    &:hover {
+      background: $red-100;
+      border: 2px solid $red-600;
+    }
+    &:active {
+      background: $red-200;
     }
   }
   &:disabled {
-    color:  $gray-600;
-    background: $gray-200;
-    border-color:  $gray-200;
+    color:  $black-600;
+    background: $black-200;
+    border-color:  $black-200;
     &:hover {
       cursor: default;
     }

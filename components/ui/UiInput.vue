@@ -94,7 +94,7 @@ export default Vue.extend({
     ::v-deep.ui-input__icon {
       & > i {
         &::before {
-          color: $gray-600;
+          color: $black-600;
         }
       }
     }
@@ -116,34 +116,34 @@ export default Vue.extend({
     padding: 8px 12px;
     font-size: 14px;
     line-height: 18px;
-    color: $gray-600;
+    color: $black-600;
     background: transparent;
-    border: 2px solid $gray-200;
+    border: 2px solid $black-200;
     transition: $transition;
     &::placeholder {
       font-weight: 400;
-      color: $gray-200;
+      color: $black-200;
       transition: $transition;
     }
     &:hover {
-      border-color: $gray-600;
+      border-color: $black-600;
       &::placeholder {
-        color: $gray-200;
+        color: $black-200;
       }
     }
     &:focus {
       border-color: $main-black;
       color: $main-black;
       &::placeholder {
-        color: $gray-200;
+        color: $black-200;
       }
     }
 
     &:disabled {
-      background-color: $gray-200;
-      border-color: $gray-200;
+      background-color: $black-200;
+      border-color: $black-200;
       &::placeholder {
-        color: $gray-600;
+        color: $black-600;
       }
     }
     &_pr {
