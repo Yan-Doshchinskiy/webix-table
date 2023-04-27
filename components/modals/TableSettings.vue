@@ -31,6 +31,9 @@ export default (Vue as TModalWindowVue).extend({
       type: Object as PropType<IStoreModalOptions<MODAL_TYPE.tableSettings>>,
       required: true
     }
+  },
+  mounted() {
+    console.log(this.modal);
   }
 
 });

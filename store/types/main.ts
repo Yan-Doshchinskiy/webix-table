@@ -20,18 +20,12 @@ export interface IModalPropsDefault extends IModalHandlers {
 }
 
 export interface IModalHandlersPayload extends Record<TModalType, Record<string, any>>{
-  [MODAL_TYPE.tableSettings]: {
-    a: string,
-    b: string,
-    j: number,
-  },
+  [MODAL_TYPE.tableSettings]: { },
 }
 
 export interface IModalProps extends Record<TModalType, Record<string, any>>{
   [MODAL_TYPE.tableSettings]: {
-    c: string,
-    d?: string,
-    handler: (options: IModalHandlersPayload[MODAL_TYPE.tableSettings]) => Promise<void>
+
   }
 }
 

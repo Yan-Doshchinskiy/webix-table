@@ -1,21 +1,19 @@
 <template>
   <div class="main-page">
-    <h2>Товары в категории</h2>
+    <h2 class="main-page__title">
+      Товары в категории
+    </h2>
     <div class="main-page__filters">
       <div class="main-page__controls">
-        <UiInput
+        <UiInputSearch
           id="item-table-search"
           v-model="search"
           data-selector="ITEM-TABLE-SEARCH"
           class="main-page__search"
           placeholder="Поиск"
           @input="handleSearch"
-        >
-          <template #iconRight>
-            <i v-if="!search" class="icon-search" />
-            <i v-else class="icon-close" @click="handleClearSearch" />
-          </template>
-        </UiInput>
+          @clear="handleClearSearch"
+        />
         <UiCheckbox
           id="favorites-checkbox"
           v-model="favoriteCheckboxModel"
@@ -25,9 +23,13 @@
           @input="handleCheckFavorites"
         />
       </div>
-      <div class="main-page__settings">
-        Stub
-      </div>
+
+      <button
+        class="main-page__settings"
+        @click="handleOpenSettingsModal"
+      >
+        Wallet settings
+      </button>
     </div>
     <WebixDataTable
       :listeners="tableListeners"
@@ -38,29 +40,33 @@
 </template>
 
 <script lang="ts">
+import type { VueConstructor } from 'vue';
 import Vue from 'vue';
 import clone from 'lodash.clonedeep';
 
-import UiCheckbox, { ICheckboxOptions, TCheckboxOptionsArray } from '~/components/ui/UiCheckbox.vue';
-import UiInput from '~/components/ui/UiInput.vue';
+import UiCheckbox from '~/components/ui/UiCheckbox.vue';
+import UiInputSearch from '~/components/ui/UiInputSearch.vue';
 import WebixDataTable from '~/components/webix/WebixDataTable.vue';
 
 import Debouncer from '~/mixins/Debouncer';
 import LoadingAdditional from '~/mixins/LoadingAdditional';
+import ModalControl from '~/mixins/ModalControl';
 
 import { getTableImageCellTemplate } from '~/core/webix/TableImageCell';
 import { getTableBadgeCellTemplate } from '~/core/webix/TableBadgeCell';
 import { getTableLinkCellTemplate } from '~/core/webix/TableLinkCell';
 import { getTableFavoriteCellTemplate } from '~/core/webix/TableFavoritesCell';
 
-import type { VueConstructor } from 'vue';
+import { MODAL_TYPE } from '~/store/types/main';
+
+import type { ICheckboxOptions, TCheckboxOptionsArray } from '~/components/ui/UiCheckbox.vue';
 import type { ITableListeners, IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
 import type {
-  IWebixTableItem,
-  TWebixTableItemsArray,
-  ITrend,
   ITableFetchOptions,
-  TTableItemFavorite
+  ITrend,
+  IWebixTableItem,
+  TTableItemFavorite,
+  TWebixTableItemsArray
 } from '~/core/api/types/webix';
 
 interface IData {
@@ -74,16 +80,16 @@ interface IData {
 
 const FAVORITE_SELECTOR = 'favorite-icon-click';
 
-type TIndexPage = VueConstructor<Vue & InstanceType<typeof Debouncer> & InstanceType<typeof LoadingAdditional>>
+type TIndexPage = VueConstructor<Vue & InstanceType<typeof Debouncer> & InstanceType<typeof LoadingAdditional> & InstanceType<typeof ModalControl>>
 
 export default (Vue as TIndexPage).extend({
   name: 'IndexPage',
   components: {
     UiCheckbox,
-    UiInput,
+    UiInputSearch,
     WebixDataTable
   },
-  mixins: [Debouncer, LoadingAdditional],
+  mixins: [Debouncer, LoadingAdditional, ModalControl],
   data(): IData {
     return {
       headers: [],
@@ -171,6 +177,12 @@ export default (Vue as TIndexPage).extend({
     async handleClearSearch(): Promise<void> {
       this.search = '';
       await this.fetchTableItems({});
+    },
+    handleOpenSettingsModal() {
+      this.ShowModal({
+        key: MODAL_TYPE.tableSettings,
+        options: {}
+      });
     },
     initializeHeaders(): void {
       this.headers = [
@@ -343,7 +355,7 @@ export default (Vue as TIndexPage).extend({
     max-width: 400px;
   }
   &__favorites {
-
+    width: max-content;
   }
   &__settings {
 
