@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.0.1...v1.0.2) (2023-04-27)
+
+
+### Features
+
+* **main-table:** add favorites logic, search refactoring ([2367017](https://github.com/Yan-Doshchinskiy/webix-table/commit/23670170fcd2a850431d828ecda501b018b420ff))
+* **main-table:** table-favorite-cell template completed ([1bdc40b](https://github.com/Yan-Doshchinskiy/webix-table/commit/1bdc40b6428a7f9ecce68c3f99f223c51abda24c))
+* **mixins:** debouncer and loading mixins implemented ([befc852](https://github.com/Yan-Doshchinskiy/webix-table/commit/befc852cf6ce72755b36f82daa1d869c334277b3))
+
+
+### Refactor
+
+* **api:** refactor table api after backend refactoring ([caf5ca2](https://github.com/Yan-Doshchinskiy/webix-table/commit/caf5ca243f8c2a549abb5cf560f09bd7cd0cb8d9))
+
+
+### Style changes
+
+* **fonts:** icomoon font updated ([fa12ad4](https://github.com/Yan-Doshchinskiy/webix-table/commit/fa12ad4eea8c1c0e382d1499d6640accac2ad417))
+
 ### [1.0.1](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.0.0...v1.0.1) (2023-04-26)
 
 
