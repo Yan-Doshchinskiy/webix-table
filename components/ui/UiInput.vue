@@ -39,7 +39,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'BaseInput',
+  name: 'UiInput',
 
   props: {
     value: {
