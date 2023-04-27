@@ -1,7 +1,7 @@
 <template>
   <div class="main-page">
     <h2 class="main-page__title">
-      Товары в категории
+      {{ $tc('tables.main.title') }}
     </h2>
     <div class="main-page__filters">
       <div class="main-page__controls">
@@ -23,7 +23,6 @@
           @input="handleCheckFavorites"
         />
       </div>
-
       <UiButton
         data-selector="OPEN-TABLE-SETTINGS"
         class="main-page__settings"
@@ -344,7 +343,6 @@ export default (Vue as TIndexPage).extend({
   @include page;
   grid-row-gap: 20px;
   &__title {
-
   }
   &__filters {
     display: grid;

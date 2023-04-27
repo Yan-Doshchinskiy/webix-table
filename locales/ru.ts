@@ -6,5 +6,10 @@ export default {
   },
   buttons: {
     tableSettings: 'Table settings'
+  },
+  tables: {
+    main: {
+      title: 'Товары в категории'
+    }
   }
 };

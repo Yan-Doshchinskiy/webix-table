@@ -1,4 +1,4 @@
-import localeEN from './locales/en';
+import localeRU from './locales/ru';
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -49,12 +49,12 @@ export default {
   ],
 
   i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
+    locales: ['ru'],
+    defaultLocale: 'ru',
     strategy: 'no_prefix',
     vueI18n: {
       messages: {
-        en: localeEN
+        ru: localeRU
       }
     },
     detectBrowserLanguage: {
