@@ -3,14 +3,20 @@
     <main class="default-layout__content">
       <nuxt />
     </main>
+    <ModalContainer />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
+import ModalContainer from '~/components/modals/ModalContainer/index.vue';
+
 export default Vue.extend({
-  name: 'DefaultLayout'
+  name: 'DefaultLayout',
+  components: {
+    ModalContainer
+  }
 });
 
 </script>
