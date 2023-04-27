@@ -3,5 +3,8 @@ export default {
     tableSettings: {
       title: 'Table settings'
     }
+  },
+  buttons: {
+    tableSettings: 'Table settings'
   }
 };

@@ -24,12 +24,17 @@
         />
       </div>
 
-      <button
+      <UiButton
+        data-selector="OPEN-TABLE-SETTINGS"
         class="main-page__settings"
+        variant="secondary"
         @click="handleOpenSettingsModal"
       >
-        Wallet settings
-      </button>
+        {{ $tc('buttons.tableSettings') }}
+        <template #iconRight>
+          <i class="icon-cog" />
+        </template>
+      </UiButton>
     </div>
     <WebixDataTable
       :listeners="tableListeners"
@@ -44,6 +49,7 @@ import type { VueConstructor } from 'vue';
 import Vue from 'vue';
 import clone from 'lodash.clonedeep';
 
+import UiButton from '~/components/ui/UiButton.vue';
 import UiCheckbox from '~/components/ui/UiCheckbox.vue';
 import UiInputSearch from '~/components/ui/UiInputSearch.vue';
 import WebixDataTable from '~/components/webix/WebixDataTable.vue';
@@ -85,6 +91,7 @@ type TIndexPage = VueConstructor<Vue & InstanceType<typeof Debouncer> & Instance
 export default (Vue as TIndexPage).extend({
   name: 'IndexPage',
   components: {
+    UiButton,
     UiCheckbox,
     UiInputSearch,
     WebixDataTable
