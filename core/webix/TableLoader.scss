@@ -1,0 +1,28 @@
+.table-loader {
+  height: 100%;
+  background-color: $main-white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  border-color: transparent $black-800 $black-800 $black-800;
+  animation: lds-dual-ring 0.9s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

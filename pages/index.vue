@@ -179,7 +179,10 @@ export default (Vue as TIndexPage).extend({
   },
   methods: {
     async fetchTableItems(options: Partial<ITableFetchOptions>): Promise<void> {
+      const ref = this.$refs[TABLE_REF_KEY];
       try {
+        // @ts-ignore // TODO add ref types
+        ref.switchTableLoading('loading');
         this.StartLoadingLocal();
         this.tableData = await this.$api.WebixController.fetchTableItems({
           ...this.fetchOptions,
@@ -189,6 +192,8 @@ export default (Vue as TIndexPage).extend({
         console.error('fetchTableItems error', e);
       } finally {
         this.FinishLoadingLocal();
+        // @ts-ignore // TODO add ref types
+        ref.switchTableLoading('none');
       }
     },
     async handleAddFavorites(id: string): Promise<void> {

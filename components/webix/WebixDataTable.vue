@@ -8,6 +8,8 @@ import clone from 'lodash.clonedeep';
 
 import type { PropType } from 'vue';
 import type webix from 'webix/types/webix';
+import { getTableLoaderTemplate } from '~/core/webix/TableLoader';
+import { TLoadingStatus } from '~/mixins/LoadingLocal';
 
 interface IEvents {
   resizeEventId: string | number | null,
@@ -248,6 +250,18 @@ export default Vue.extend({
       }
       this.webixElement.clearAll();
       this.webixElement.parse(value, 'json');
+    },
+    switchTableLoading(status: TLoadingStatus) {
+      if (!this.webixElement) {
+        return;
+      }
+      if (status === 'loading') {
+        this.webixElement.showOverlay(getTableLoaderTemplate());
+        this.webixElement.disable();
+      } else {
+        this.webixElement.hideOverlay();
+        this.webixElement.enable();
+      }
     },
     emitColumnVisibility(key: string, status: TTableElementVisibility) {
       this.$emit('column-visibility', key, status);
