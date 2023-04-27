@@ -36,23 +36,24 @@
       </UiButton>
     </div>
     <WebixDataTable
+      :ref="TABLE_REF_KEY"
       :listeners="tableListeners"
-      :headers="immutableHeaders"
+      :headers="headers"
       :table-data="tableData"
       :config="tableConfig"
+      @column-visibility="syncHeaderVisibility"
+      @reset-table="syncTableReset"
     />
   </div>
 </template>
 
 <script lang="ts">
-import type { VueConstructor } from 'vue';
 import Vue from 'vue';
-import clone from 'lodash.clonedeep';
 
 import UiButton from '~/components/ui/UiButton.vue';
 import UiCheckbox from '~/components/ui/UiCheckbox.vue';
 import UiInputSearch from '~/components/ui/UiInputSearch.vue';
-import WebixDataTable, { TTableConfigProps } from '~/components/webix/WebixDataTable.vue';
+import WebixDataTable from '~/components/webix/WebixDataTable.vue';
 
 import Debouncer from '~/mixins/Debouncer';
 import LoadingAdditional from '~/mixins/LoadingAdditional';
@@ -65,8 +66,14 @@ import { getTableFavoriteCellTemplate } from '~/core/webix/TableFavoritesCell';
 
 import { MODAL_TYPE } from '~/store/types/main';
 
+import type { VueConstructor } from 'vue';
+import type {
+  TTableConfigProps,
+  ITableListeners,
+  IWebixTableHeader,
+  TTableElementVisibility
+} from '~/components/webix/WebixDataTable.vue';
 import type { ICheckboxOptions, TCheckboxOptionsArray } from '~/components/ui/UiCheckbox.vue';
-import type { ITableListeners, IWebixTableHeader } from '~/components/webix/WebixDataTable.vue';
 import type {
   ITableFetchOptions,
   ITrend,
@@ -74,6 +81,8 @@ import type {
   TTableItemFavorite,
   TWebixTableItemsArray
 } from '~/core/api/types/webix';
+
+const TABLE_REF_KEY = 'items-table-component';
 
 interface IData {
   tableConfig: TTableConfigProps
@@ -83,6 +92,8 @@ interface IData {
   tableData: TWebixTableItemsArray,
   favoriteCheckboxModel: TCheckboxOptionsArray<TTableItemFavorite>,
   favoriteCheckboxOptions: ICheckboxOptions<TTableItemFavorite>,
+  TABLE_REF_KEY: typeof TABLE_REF_KEY,
+  hiddenHeaders: Array<keyof IWebixTableItem>
 }
 
 const FAVORITE_SELECTOR = 'favorite-icon-click';
@@ -114,7 +125,9 @@ export default (Vue as TIndexPage).extend({
       favoriteCheckboxOptions: {
         label: 'Избранное',
         value: 'f'
-      }
+      },
+      TABLE_REF_KEY,
+      hiddenHeaders: []
     };
   },
   computed: {
@@ -124,10 +137,6 @@ export default (Vue as TIndexPage).extend({
         search: this.search,
         favorites: this.favoriteCheckboxModel.some(({ value }) => value === 'f') ? 'f' : 'n'
       };
-    },
-    immutableHeaders(): Array<IWebixTableHeader<IWebixTableItem>> {
-      // We should create deep copy, because  webix mutates component props
-      return clone(this.headers);
     },
     tableListeners(): ITableListeners {
       return {
@@ -142,6 +151,19 @@ export default (Vue as TIndexPage).extend({
           }
         }
       };
+    },
+    columnCheckboxes(): TCheckboxOptionsArray<keyof IWebixTableItem> {
+      return this.headers.reduce((
+        acc: TCheckboxOptionsArray<keyof IWebixTableItem>,
+        { id, header }
+      ): TCheckboxOptionsArray<keyof IWebixTableItem> => {
+        const item: ICheckboxOptions<keyof IWebixTableItem> = {
+          label: header[0]?.text || '',
+          value: id
+        };
+        acc.push(item);
+        return acc;
+      }, []);
     }
   },
   async mounted() {
@@ -195,7 +217,56 @@ export default (Vue as TIndexPage).extend({
     handleOpenSettingsModal() {
       this.ShowModal({
         key: MODAL_TYPE.tableSettings,
-        options: {}
+        options: {
+          checkboxes: this.columnCheckboxes,
+          hiddenHeaders: this.hiddenHeaders, // must be immutable, because hiddenHeaders changes after handler call
+          handler: ({ toHide, toShow }) => {
+            try {
+              this.StartLoadingLocal();
+              // it is necessary to place the "closeModal" function at the beginning.
+              // When executing the current function, the this array is changed.hiddenHeaders,
+              // which is why the 'props' of the modal window change and an error occurs.
+              // Either the modal window closes at the very beginning, or the hiddenHeaders array should be made immutable.
+              this.CloseModal();
+              const ref = this.$refs[TABLE_REF_KEY];
+              const maxLength = Math.max(toHide.length, toShow.length);
+
+              for (let i = 0; i < maxLength; i += 1) {
+                const showItem = toShow[i];
+                const hideItem = toHide[i];
+                if (showItem) {
+                  // @ts-ignore // TODO add ref types
+                  ref.showColumn(showItem);
+                }
+                if (hideItem) {
+                  // @ts-ignore // TODO add ref types
+                  ref.hideColumn(hideItem);
+                }
+              }
+            } catch (e) {
+              console.error('tableSettings modal handler error', e);
+            } finally {
+              this.FinishLoadingLocal();
+            }
+          },
+          resetHandler: () => {
+            try {
+              this.StartLoadingLocal();
+              // it is necessary to place the "closeModal" function at the beginning.
+              // When executing the current function, the this array is changed.hiddenHeaders,
+              // which is why the 'props' of the modal window change and an error occurs.
+              // Either the modal window closes at the very beginning, or the hiddenHeaders array should be made immutable.
+              this.CloseModal();
+              const ref = this.$refs[TABLE_REF_KEY];
+              // @ts-ignore // TODO add ref types
+              ref.resetTable();
+            } catch (e) {
+              console.error('tableSettings modal handler error', e);
+            } finally {
+              this.FinishLoadingLocal();
+            }
+          }
+        }
       });
     },
     initializeHeaders(): void {
@@ -241,7 +312,10 @@ export default (Vue as TIndexPage).extend({
           id: 'positionNumber',
           header: [{ text: 'Позиция', css: 'custom-table-header', height: 85 }],
           width: 150,
-          template: ({ positionNumber, positionNumberChange }) => getTableBadgeCellTemplate(positionNumber || 0, positionNumberChange || 0),
+          template: ({
+            positionNumber,
+            positionNumberChange
+          }) => getTableBadgeCellTemplate(positionNumber || 0, positionNumberChange || 0),
           tooltip: ({ positionNumber }) => positionNumber || 0,
           sort: 'int'
         },
@@ -340,6 +414,16 @@ export default (Vue as TIndexPage).extend({
           sort: 'int'
         }
       ];
+    },
+    syncHeaderVisibility(key: keyof IWebixTableItem, status: TTableElementVisibility): void {
+      if (status === 'visible') {
+        this.hiddenHeaders = this.hiddenHeaders.filter((it) => it !== key);
+      } else {
+        this.hiddenHeaders.push(key);
+      }
+    },
+    syncTableReset(): void {
+      this.hiddenHeaders = [];
     }
   }
 
@@ -350,28 +434,49 @@ export default (Vue as TIndexPage).extend({
 .main-page {
   @include page;
   grid-row-gap: 20px;
+
   &__title {
   }
+
   &__filters {
     display: grid;
     grid-template-columns: 1fr max-content;
+    grid-row-gap: 8px;
     justify-content: space-between;
     align-items: center;
   }
+
   &__controls {
     display: flex;
     align-items: center;
     grid-column-gap: 12px;
+    grid-row-gap: 8px;
   }
 
   &__search {
     max-width: 400px;
   }
+
   &__favorites {
     width: max-content;
   }
+
   &__settings {
 
+  }
+
+  @include _576 {
+    &__filters {
+      display: flex;
+      align-items: flex-end;
+    }
+    &__controls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &__settings {
+      width: max-content;
+    }
   }
 }
 </style>
