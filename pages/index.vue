@@ -42,6 +42,7 @@
       :table-data="tableData"
       :config="tableConfig"
       @column-visibility="syncHeaderVisibility"
+      @column-sort="handleSortTable"
       @reset-table="syncTableReset"
     />
   </div>
@@ -53,7 +54,7 @@ import Vue from 'vue';
 import UiButton from '~/components/ui/UiButton.vue';
 import UiCheckbox from '~/components/ui/UiCheckbox.vue';
 import UiInputSearch from '~/components/ui/UiInputSearch.vue';
-import WebixDataTable from '~/components/webix/WebixDataTable.vue';
+import WebixDataTable, { TTableSortDirection } from '~/components/webix/WebixDataTable.vue';
 
 import Debouncer from '~/mixins/Debouncer';
 import LoadingAdditional from '~/mixins/LoadingAdditional';
@@ -93,7 +94,9 @@ interface IData {
   favoriteCheckboxModel: TCheckboxOptionsArray<TTableItemFavorite>,
   favoriteCheckboxOptions: ICheckboxOptions<TTableItemFavorite>,
   TABLE_REF_KEY: typeof TABLE_REF_KEY,
-  hiddenHeaders: Array<keyof IWebixTableItem>
+  hiddenHeaders: Array<keyof IWebixTableItem>,
+  sortField: keyof IWebixTableItem,
+  sortDirection: TTableSortDirection
 }
 
 const FAVORITE_SELECTOR = 'favorite-icon-click';
@@ -127,7 +130,9 @@ export default (Vue as TIndexPage).extend({
         value: 'f'
       },
       TABLE_REF_KEY,
-      hiddenHeaders: []
+      hiddenHeaders: [],
+      sortField: 'positionNumber',
+      sortDirection: 'asc'
     };
   },
   computed: {
@@ -135,7 +140,9 @@ export default (Vue as TIndexPage).extend({
       return {
         searchFields: this.searchFields,
         search: this.search,
-        favorites: this.favoriteCheckboxModel.some(({ value }) => value === 'f') ? 'f' : 'n'
+        favorites: this.favoriteCheckboxModel.some(({ value }) => value === 'f') ? 'f' : 'n',
+        sortField: this.sortField,
+        sortDirection: this.sortDirection
       };
     },
     tableListeners(): ITableListeners {
@@ -206,6 +213,14 @@ export default (Vue as TIndexPage).extend({
     },
     async handleCheckFavorites(): Promise<void> {
       await this.fetchTableItems({});
+    },
+    async handleSortTable(key: keyof IWebixTableItem, direction: TTableSortDirection): Promise<void> {
+      this.sortField = key;
+      this.sortDirection = direction;
+      await this.fetchTableItems({ // TODO add sorting lock logic during fetching
+        sortField: key,
+        sortDirection: direction
+      });
     },
     async handleSearch(): Promise<void> {
       this.DebounceFunction(this.fetchTableItems.bind(this, {}), 1000);
@@ -291,7 +306,7 @@ export default (Vue as TIndexPage).extend({
           width: 200,
           template: ({ name, productWbId }) => getTableLinkCellTemplate(name, `/products/${productWbId}`),
           tooltip: ({ name }) => name,
-          sort: 'string'
+          sort: 'server'
         },
         {
           id: 'supplier',
@@ -299,14 +314,14 @@ export default (Vue as TIndexPage).extend({
           width: 150,
           template: ({ supplier, wbOrgNameId }) => getTableLinkCellTemplate(supplier, `/suppliers/${wbOrgNameId}`),
           tooltip: ({ supplier }) => supplier,
-          sort: 'string'
+          sort: 'server'
         },
         {
           id: 'productWbId',
           header: [{ text: 'Артикул WB', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ productWbId }) => productWbId,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'positionNumber',
@@ -317,7 +332,7 @@ export default (Vue as TIndexPage).extend({
             positionNumberChange
           }) => getTableBadgeCellTemplate(positionNumber || 0, positionNumberChange || 0),
           tooltip: ({ positionNumber }) => positionNumber || 0,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'subject',
@@ -325,7 +340,7 @@ export default (Vue as TIndexPage).extend({
           width: 150,
           template: ({ subject, subjectId }) => getTableLinkCellTemplate(subject, `/categories/${subjectId}`),
           tooltip: ({ subject }) => subject,
-          sort: 'string'
+          sort: 'server'
         },
         {
           id: 'trend',
@@ -354,21 +369,21 @@ export default (Vue as TIndexPage).extend({
           header: [{ text: 'Заказы, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ orders }) => orders,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'ordersSum',
           header: [{ text: 'Выручка, ₽', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ orders }) => orders,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'loosesPercent',
           header: [{ text: 'Потери %', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ loosesPercent }) => loosesPercent,
-          sort: 'int'
+          sort: 'server'
         },
 
         {
@@ -376,42 +391,42 @@ export default (Vue as TIndexPage).extend({
           header: [{ text: 'Остатки, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ lastRemains }) => lastRemains,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'lastPrice',
           header: [{ text: 'Цена, ₽', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ lastPrice }) => lastPrice,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'lastDiscountPercent',
           header: [{ text: 'Скидка, %', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ lastDiscountPercent }) => lastDiscountPercent,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'positionRating',
           header: [{ text: 'Рейтинг', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ positionRating }) => positionRating,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'reviewsRating',
           header: [{ text: 'Рейтинг по отзывам', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ reviewsRating }) => reviewsRating,
-          sort: 'int'
+          sort: 'server'
         },
         {
           id: 'reviewsCount',
           header: [{ text: 'Отзывы, шт', css: 'custom-table-header', height: 85 }],
           width: 100,
           tooltip: ({ reviewsCount }) => reviewsCount,
-          sort: 'int'
+          sort: 'server'
         }
       ];
     },

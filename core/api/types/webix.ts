@@ -1,3 +1,5 @@
+import { TTableSortDirection } from '~/components/webix/WebixDataTable.vue';
+
 export interface ITrend {
   date: string,
   ordersSum: number,
@@ -251,5 +253,7 @@ export type TTableItemFavorite = 'f' | 'n'
 export interface ITableFetchOptions {
   favorites: TTableItemFavorite,
   search: string,
-  searchFields: Array<keyof IWebixTableItem>
+  searchFields: Array<keyof IWebixTableItem>,
+  sortField: keyof IWebixTableItem,
+  sortDirection: TTableSortDirection
 }

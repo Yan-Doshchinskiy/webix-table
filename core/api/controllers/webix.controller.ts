@@ -8,13 +8,9 @@ interface IFavrotesRequest {
 }
 
 class WebixController extends ApiController<IApiControllerOptions> {
-  public async fetchTableItems({ favorites, search, searchFields }: ITableFetchOptions): Promise<TWebixTableItemsArray> {
+  public async fetchTableItems(payload: ITableFetchOptions): Promise<TWebixTableItemsArray> {
     return this.get<TWebixTableItemsArray>('/table', {
-      params: {
-        favorites,
-        search,
-        searchFields
-      }
+      params: payload
     });
   }
 

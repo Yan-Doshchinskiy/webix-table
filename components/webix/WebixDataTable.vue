@@ -13,6 +13,7 @@ interface IEvents {
   resizeEventId: string | number | null,
   columnHideId: string | number | null,
   columnShowId: string | number | null,
+  columnSortId: string | number | null,
 }
 
 interface ICell {
@@ -32,12 +33,13 @@ export interface ITableListeners<D = any> {
   onClick?: ISingleListener<D>
 }
 
-type TTableSorting = 'int' | 'date' | 'string' | 'string_strict' | 'text' | 'string_locale' | 'string_locale_strict' | 'text_locale' | 'server' | 'raw'
+type TTableSortingType = 'int' | 'date' | 'string' | 'string_strict' | 'text' | 'string_locale' | 'string_locale_strict' | 'text_locale' | 'server' | 'raw'
+export type TTableSortDirection = 'asc' | 'desc'
 
 export interface IWebixTableHeader<K extends Record<string, any> = Record<string, any>> {
   id: keyof K,
   header: Array<{ text: string, css?: string, height?: number }>,
-  sort?: TTableSorting,
+  sort?: TTableSortingType,
   width?: number,
   fillspace?: number | boolean,
   template?: string | ((obj: K, common: Record<string, any>, value: K[keyof K], header: IWebixTableHeader<K>, index: number) => string | number),
@@ -93,13 +95,13 @@ export default Vue.extend({
       events: {
         resizeEventId: null,
         columnHideId: null,
-        columnShowId: null
+        columnShowId: null,
+        columnSortId: null
       },
       localHeaders: []
     };
   },
   computed: {
-
     tableConfig(): ITableConfig {
       return {
         height: 800,
@@ -183,6 +185,9 @@ export default Vue.extend({
       this.events.columnShowId = this.webixElement.attachEvent('onAfterColumnShow', (key: string) => {
         this.emitColumnVisibility(key, 'visible');
       });
+      this.events.columnSortId = this.webixElement.attachEvent('onBeforeSort', (key: string, direction: TTableSortDirection) => {
+        this.emitColumnSort(key, direction);
+      });
     },
     unsubscribeResizeEvent(): void {
       if (this.events.resizeEventId === null) {
@@ -200,6 +205,9 @@ export default Vue.extend({
       }
       if (typeof this.events.columnShowId === 'string') {
         this.webixElement.detachEvent(this.events.columnShowId);
+      }
+      if (typeof this.events.columnSortId === 'string') {
+        this.webixElement.detachEvent(this.events.columnSortId);
       }
     },
     showColumn(key: string) {
@@ -229,6 +237,7 @@ export default Vue.extend({
       if (!this.webixElement) {
         return;
       }
+      // We should clone input values,because webix mutates options
       this.localHeaders = clone(value);
       this.webixElement.config.columns = this.localHeaders;
       this.webixElement.refreshColumns();
@@ -245,9 +254,11 @@ export default Vue.extend({
     },
     emitResetTable() {
       this.$emit('reset-table');
+    },
+    emitColumnSort(key: string, direction: TTableSortDirection) {
+      this.$emit('column-sort', key, direction);
     }
   }
-
 });
 </script>
 
