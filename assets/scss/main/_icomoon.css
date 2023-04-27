@@ -34,3 +34,6 @@
 .icon-search:before {
   content: "\e986";
 }
+.icon-checkmark:before {
+  content: "\ea10";
+}
