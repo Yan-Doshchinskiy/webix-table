@@ -4,8 +4,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import type { PropType } from 'vue';
 
+import type { PropType } from 'vue';
 import type webix from 'webix/types/webix';
 
 interface IEvents {
@@ -48,12 +48,27 @@ export interface IWebixTableHeader<K extends Record<string, any> = Record<string
 
 type TTableItemsArray<T extends Record<string, any> = Record<string, any>> = Array<T>
 
+export interface ITableConfig {
+  height: number,
+  rowHeight: number,
+  tooltip: boolean,
+  dragColumn: boolean,
+  resizeColumn: boolean,
+  css: string
+}
+
+export type TTableConfigProps = Partial<ITableConfig>
+
 export default Vue.extend({
   name: 'WebixDataTable',
   props: {
     headers: {
       type: Array as PropType<Array<IWebixTableHeader>>,
       required: true
+    },
+    config: {
+      type: Object as PropType<TTableConfigProps>,
+      default: () => ({})
     },
     tableData: {
       type: Array as PropType<TTableItemsArray>,
@@ -75,6 +90,17 @@ export default Vue.extend({
     };
   },
   computed: {
+    tableConfig(): ITableConfig {
+      return {
+        height: 800,
+        rowHeight: 40,
+        tooltip: false,
+        dragColumn: false,
+        resizeColumn: false,
+        css: '',
+        ...this.config
+      };
+    },
     onClickListener(): IWebixListener {
       if (!this.listeners?.onClick) {
         return {};
@@ -128,15 +154,10 @@ export default Vue.extend({
         container: this.$el,
         $scope: this,
         view: 'datatable',
-        height: 800,
         columns: this.headers,
-        rowHeight: 40,
-        tooltip: true,
-        dragColumn: true,
-        resizeColumn: true,
-        css: 'custom-items-table',
         data: this.tableData,
-        onClick: this.onClickListener
+        onClick: this.onClickListener,
+        ...this.tableConfig
       }) as webix.ui.datatable;
     },
     destroyTableElement(): void {

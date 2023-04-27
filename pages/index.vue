@@ -39,6 +39,7 @@
       :listeners="tableListeners"
       :headers="immutableHeaders"
       :table-data="tableData"
+      :config="tableConfig"
     />
   </div>
 </template>
@@ -51,7 +52,7 @@ import clone from 'lodash.clonedeep';
 import UiButton from '~/components/ui/UiButton.vue';
 import UiCheckbox from '~/components/ui/UiCheckbox.vue';
 import UiInputSearch from '~/components/ui/UiInputSearch.vue';
-import WebixDataTable from '~/components/webix/WebixDataTable.vue';
+import WebixDataTable, { TTableConfigProps } from '~/components/webix/WebixDataTable.vue';
 
 import Debouncer from '~/mixins/Debouncer';
 import LoadingAdditional from '~/mixins/LoadingAdditional';
@@ -75,12 +76,13 @@ import type {
 } from '~/core/api/types/webix';
 
 interface IData {
+  tableConfig: TTableConfigProps
   headers: Array<IWebixTableHeader<IWebixTableItem>>,
   search: string,
   searchFields: Array<keyof IWebixTableItem>,
   tableData: TWebixTableItemsArray,
   favoriteCheckboxModel: TCheckboxOptionsArray<TTableItemFavorite>,
-  favoriteCheckboxOptions: ICheckboxOptions<TTableItemFavorite>
+  favoriteCheckboxOptions: ICheckboxOptions<TTableItemFavorite>,
 }
 
 const FAVORITE_SELECTOR = 'favorite-icon-click';
@@ -98,6 +100,12 @@ export default (Vue as TIndexPage).extend({
   mixins: [Debouncer, LoadingAdditional, ModalControl],
   data(): IData {
     return {
+      tableConfig: {
+        tooltip: true,
+        dragColumn: true,
+        resizeColumn: true,
+        css: 'custom-items-table'
+      },
       headers: [],
       search: '',
       searchFields: ['productWbId', 'name', 'subject', 'supplier'],
