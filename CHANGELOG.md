@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.1.0...v1.2.0) (2023-04-28)
+
+
+### Features
+
+* **api:** client side sorting logic replaced with server side ([4754de3](https://github.com/Yan-Doshchinskiy/webix-table/commit/4754de394f51bb7a340504cfaf41de22a2b8a278))
+* **libs:** webix lib added to libs folder ([c168bca](https://github.com/Yan-Doshchinskiy/webix-table/commit/c168bca821ddac3fd15cd93de6c549b73e841bc5))
+* **main-table:** 'name' column filter added ([9253ed0](https://github.com/Yan-Doshchinskiy/webix-table/commit/9253ed02bd846952616810c86a09063d9833a9d4))
+* **main-table:** image column popovers added ([33eff74](https://github.com/Yan-Doshchinskiy/webix-table/commit/33eff7425130d17b0db0c864575a37de5cb4f729))
+* **main-table:** table client side filtering completed ([513a3fc](https://github.com/Yan-Doshchinskiy/webix-table/commit/513a3fc2394ac7332bb4b97364f0aef841297076))
+* **main-table:** table loading logic added ([d87d56e](https://github.com/Yan-Doshchinskiy/webix-table/commit/d87d56ebab90384223c2440a2f3996711e3dfd8f))
+
+
+### Bug Fixes
+
+* **api:** api module main url changed ([5950abb](https://github.com/Yan-Doshchinskiy/webix-table/commit/5950abb1d72430f3de6ded0e37c12eb76f25d6b8))
+* **types:** interface updated IWebixTableHeader ([31e4315](https://github.com/Yan-Doshchinskiy/webix-table/commit/31e431528f3fe9f5fee71b0f55c2436c3cdd0915))
+
+
+### Refactor
+
+* **packages:** webix package replaced with local webix lib ([e5d09de](https://github.com/Yan-Doshchinskiy/webix-table/commit/e5d09deab175d160f104183765d6c7f133908868))
+
+
+### Style changes
+
+* **main-table:** main table scrollbar css updated ([608b3cb](https://github.com/Yan-Doshchinskiy/webix-table/commit/608b3cb882641c38ab14b1a9fc97cbfea518475b))
+
 ## [1.1.0](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.0.2...v1.1.0) (2023-04-27)
 
 
