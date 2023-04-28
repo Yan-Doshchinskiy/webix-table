@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.2.0...v1.2.1) (2023-04-28)
+
+
+### Style changes
+
+* **main-table:** mobile table height decreased ([855bac9](https://github.com/Yan-Doshchinskiy/webix-table/commit/855bac93cd5d3a6044dd1cdcac77ad326311d5cf))
+
 ## [1.2.0](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.1.0...v1.2.0) (2023-04-28)
 
 
