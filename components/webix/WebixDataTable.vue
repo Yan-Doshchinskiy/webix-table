@@ -6,10 +6,11 @@
 import Vue from 'vue';
 import clone from 'lodash.clonedeep';
 
-import type { PropType } from 'vue';
-import type webix from 'webix/types/webix';
 import { getTableLoaderTemplate } from '~/core/webix/TableLoader';
-import { TLoadingStatus } from '~/mixins/LoadingLocal';
+
+import type webix from '~/libs/webix/types/webix';
+import type { PropType } from 'vue';
+import type { TLoadingStatus } from '~/mixins/LoadingLocal';
 
 interface IEvents {
   resizeEventId: string | number | null,
@@ -166,7 +167,7 @@ export default Vue.extend({
         data: this.tableData,
         onClick: this.onClickListener,
         ...this.tableConfig
-      }) as webix.ui.datatable;
+      }) as unknown as webix.ui.datatable;
     },
     destroyTableElement(): void {
       this.webixElement?.destructor();

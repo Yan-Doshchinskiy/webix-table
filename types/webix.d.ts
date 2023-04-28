@@ -1,4 +1,4 @@
-import type webix from 'webix/types/webix';
+import type webix from '~/libs/webix/types/webix';
 
 export interface IAppWebix {
   $$: typeof webix.$$,

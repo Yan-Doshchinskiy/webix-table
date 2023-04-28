@@ -1,9 +1,9 @@
+@import "@/core/webix/WebixCommon.scss";
+@import "@/libs/webix/mini.css";
 @import "./_reset.css";
 @import "./_typography.scss";
 @import './_icomoon.css';
 @import "../styleResources/_variables.scss";
-@import "webix/webix.css";
-@import "../../../core/webix/WebixCommon.scss";
 
 /* prevents screen shifts when the scrollbar appears */
 html {
@@ -14,7 +14,6 @@ html {
 }
 
 body {
-  //font-family: 'Inconsolata', sans-serif;
   font-weight: 400;
   width: 100%;
 }
