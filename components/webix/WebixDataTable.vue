@@ -48,6 +48,7 @@ export interface IWebixTableHeader<K extends Record<string, any> = Record<string
   fillspace?: number | boolean,
   template?: string | ((obj: K, common: Record<string, any>, value: K[keyof K], header: IWebixTableHeader<K>, index: number) => string | number),
   tooltip?: string | ((obj: K, common: Record<string, any>, value: any) => string | number) | boolean,
+  css?: string
 }
 
 interface IData {

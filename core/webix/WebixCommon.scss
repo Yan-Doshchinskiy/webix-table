@@ -21,6 +21,12 @@
     .webix_el_richselect { display: none !important; }
   }
 
+  .table-image-column {
+    .webix_cell {
+      overflow: visible;
+    }
+  }
+
   .custom-table-header {
     background-color: $main-white;
     border-right: 1px solid $black-200;
@@ -30,12 +36,8 @@
   }
   .custom-table-filter-cell {
     background-color: $main-white;
-
   }
 }
-
-
-
 
 
 

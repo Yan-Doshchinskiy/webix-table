@@ -15,12 +15,31 @@
     height: 32px;
     cursor: pointer;
     transition: $transition;
-
     &:hover {
       transform: scale(1.1);
+      &+.table-image-cell__popover{
+        opacity: 1;
+      }
     }
   }
-
+  &__popover {
+    transition: $transition;
+    transition-delay: 300ms;
+    opacity: 0;
+    background-color: $main-white;
+    position: absolute;
+    left: 140%;
+    top: 0;
+    padding: 10px;
+    z-index: 2;
+    border-radius: 6px;
+    border: 1px solid $black-300;
+  }
+  &__demo {
+    object-fit: cover;
+    cursor: pointer;
+    min-width: 140px;
+    min-height: 220px;
+    border-radius: 6px;
+  }
 }
-
-

@@ -296,7 +296,8 @@ export default (Vue as TIndexPage).extend({
           header: [{ text: 'Фото', css: 'custom-table-header', height: 85 }],
           width: 80,
           template: ({ image, productWbId }) => getTableImageCellTemplate(image, productWbId),
-          tooltip: false
+          tooltip: false,
+          css: 'table-image-column'
         },
         {
           id: 'isFavorite',
