@@ -36,12 +36,13 @@ export interface ITableListeners<D = any> {
   onClick?: ISingleListener<D>
 }
 
+type TTableHeaderFilter = 'excelFilter' | 'textFilter'
 type TTableSortingType = 'int' | 'date' | 'string' | 'string_strict' | 'text' | 'string_locale' | 'string_locale_strict' | 'text_locale' | 'server' | 'raw'
 export type TTableSortDirection = 'asc' | 'desc'
 
 export interface IWebixTableHeader<K extends Record<string, any> = Record<string, any>> {
   id: keyof K,
-  header: Array<{ text: string, css?: string, height?: number }>,
+  header: Array<{ text?: string, css?: string, height?: number, content?: TTableHeaderFilter}>,
   sort?: TTableSortingType,
   width?: number,
   fillspace?: number | boolean,
