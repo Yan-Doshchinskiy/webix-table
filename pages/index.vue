@@ -307,16 +307,10 @@ export default (Vue as TIndexPage).extend({
         },
         {
           id: 'name',
-          header: [{
-            text: 'Товар',
-            css: 'custom-table-header',
-            height: 85
-          },
-          {
-            content: 'excelFilter',
-            css: 'custom-table-header'
-            // filterConfig: {}
-          }],
+          header: [
+            { text: 'Товар', css: 'custom-table-header', height: 85 },
+            { content: 'textFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 200,
           template: ({ name, productWbId }) => getTableLinkCellTemplate(name, `/products/${productWbId}`),
           tooltip: ({ name }) => name,
@@ -324,7 +318,10 @@ export default (Vue as TIndexPage).extend({
         },
         {
           id: 'supplier',
-          header: [{ text: 'Поставщик', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Поставщик', css: 'custom-table-header', height: 85 },
+            { content: 'multiComboFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 150,
           template: ({ supplier, wbOrgNameId }) => getTableLinkCellTemplate(supplier, `/suppliers/${wbOrgNameId}`),
           tooltip: ({ supplier }) => supplier,
@@ -332,14 +329,20 @@ export default (Vue as TIndexPage).extend({
         },
         {
           id: 'productWbId',
-          header: [{ text: 'Артикул WB', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Артикул WB', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ productWbId }) => productWbId,
           sort: 'server'
         },
         {
           id: 'positionNumber',
-          header: [{ text: 'Позиция', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Позиция', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 150,
           template: ({
             positionNumber,
@@ -350,7 +353,10 @@ export default (Vue as TIndexPage).extend({
         },
         {
           id: 'subject',
-          header: [{ text: 'Категория', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Категория', css: 'custom-table-header', height: 85 },
+            { content: 'multiComboFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 150,
           template: ({ subject, subjectId }) => getTableLinkCellTemplate(subject, `/categories/${subjectId}`),
           tooltip: ({ subject }) => subject,
@@ -380,21 +386,30 @@ export default (Vue as TIndexPage).extend({
         },
         {
           id: 'orders',
-          header: [{ text: 'Заказы, шт', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Заказы, шт', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ orders }) => orders,
           sort: 'server'
         },
         {
           id: 'ordersSum',
-          header: [{ text: 'Выручка, ₽', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Выручка, ₽', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ orders }) => orders,
           sort: 'server'
         },
         {
           id: 'loosesPercent',
-          header: [{ text: 'Потери %', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Потери %', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ loosesPercent }) => loosesPercent,
           sort: 'server'
@@ -402,42 +417,60 @@ export default (Vue as TIndexPage).extend({
 
         {
           id: 'lastRemains',
-          header: [{ text: 'Остатки, шт', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Остатки, шт', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ lastRemains }) => lastRemains,
           sort: 'server'
         },
         {
           id: 'lastPrice',
-          header: [{ text: 'Цена, ₽', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Цена, ₽', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ lastPrice }) => lastPrice,
           sort: 'server'
         },
         {
           id: 'lastDiscountPercent',
-          header: [{ text: 'Скидка, %', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Скидка, %', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ lastDiscountPercent }) => lastDiscountPercent,
           sort: 'server'
         },
         {
           id: 'positionRating',
-          header: [{ text: 'Рейтинг', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Рейтинг', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ positionRating }) => positionRating,
           sort: 'server'
         },
         {
           id: 'reviewsRating',
-          header: [{ text: 'Рейтинг по отзывам', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Рейтинг по отзывам', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ reviewsRating }) => reviewsRating,
           sort: 'server'
         },
         {
           id: 'reviewsCount',
-          header: [{ text: 'Отзывы, шт', css: 'custom-table-header', height: 85 }],
+          header: [
+            { text: 'Отзывы, шт', css: 'custom-table-header', height: 85 },
+            { content: 'excelFilter', css: 'custom-table-filter-cell' }
+          ],
           width: 100,
           tooltip: ({ reviewsCount }) => reviewsCount,
           sort: 'server'

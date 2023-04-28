@@ -36,7 +36,7 @@ export interface ITableListeners<D = any> {
   onClick?: ISingleListener<D>
 }
 
-type TTableHeaderFilter = 'excelFilter' | 'textFilter'
+type TTableHeaderFilter = 'textFilter' | 'serverFilter' | 'selectFilter' | 'serverSelectFilter' | 'numberFilter' | 'dateFilter' | 'richSelectFilter' | 'serverRichSelectFilter' | 'multiSelectFilter' | 'serverMultiSelectFilter' | 'multiComboFilter' | 'serverMultiComboFilter' | 'datepickerFilter' | 'dateRangeFilter' | 'serverDateRangeFilter' | 'excelFilter'
 type TTableSortingType = 'int' | 'date' | 'string' | 'string_strict' | 'text' | 'string_locale' | 'string_locale_strict' | 'text_locale' | 'server' | 'raw'
 export type TTableSortDirection = 'asc' | 'desc'
 
