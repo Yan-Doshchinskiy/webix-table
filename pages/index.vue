@@ -307,7 +307,16 @@ export default (Vue as TIndexPage).extend({
         },
         {
           id: 'name',
-          header: [{ text: 'Товар', css: 'custom-table-header', height: 85 }],
+          header: [{
+            text: 'Товар',
+            css: 'custom-table-header',
+            height: 85
+          },
+          {
+            content: 'excelFilter',
+            css: 'custom-table-header'
+            // filterConfig: {}
+          }],
           width: 200,
           template: ({ name, productWbId }) => getTableLinkCellTemplate(name, `/products/${productWbId}`),
           tooltip: ({ name }) => name,
