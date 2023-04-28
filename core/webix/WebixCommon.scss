@@ -37,6 +37,10 @@
   .custom-table-filter-cell {
     background-color: $main-white;
   }
+
+  @include _756 {
+    max-height: 450px;
+  }
 }
 
 
