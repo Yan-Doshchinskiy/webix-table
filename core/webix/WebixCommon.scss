@@ -1,18 +1,38 @@
 .custom-items-table {
+  .webix_ss_center_scroll {
+    @include scroll-style;
+    overflow: hidden !important;
+  }
+  .webix_ss_body {
+    @include scroll-style;
+  }
   .webix_last_row {
     border-bottom-color: $black-200 !important;
   }
+  .webix_overlay {
+    padding: 0;
+  }
+
+  .webix_vscroll_y, .webix_vscroll_x {
+    @include scroll-style;
+  }
+
+  .custom-excel-filter {
+    .webix_el_richselect { display: none !important; }
+  }
+
+  .custom-table-header {
+    background-color: $main-white;
+    border-right: 1px solid $black-200;
+    font-size: 12px;
+    line-height: 12px !important;
+    padding: 20px;
+  }
 }
 
-.custom-table-header {
-  background-color: $main-white;
-  border-right: 1px solid $black-200;
-  font-size: 12px;
-  line-height: 12px !important;
-  padding: 20px;
-}
 
-.webix_overlay {
-  padding: 0;
-}
+
+
+
+
 
