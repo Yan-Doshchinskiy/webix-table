@@ -8,7 +8,6 @@
 /* prevents screen shifts when the scrollbar appears */
 html {
   font-family: $inconsolata-font;
-  word-spacing: -5px !important;
   overflow-x: hidden;
   margin-right: calc(-1 * (100vw - 100%));
 }
