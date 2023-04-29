@@ -154,7 +154,6 @@ export default (Vue as TIndexPage).extend({
             }
             const method = isFavorite ? this.handleDeleteFavorites : this.handleAddFavorites;
             await method(productWbId);
-            await this.fetchTableItems({});
           }
         }
       };
@@ -200,6 +199,10 @@ export default (Vue as TIndexPage).extend({
       try {
         this.StartLoadingAdditional();
         await this.$api.WebixController.addFavorites(id);
+        const item = this.tableData.find((it) => it.productWbId === id);
+        if (item) {
+          item.isFavorite = true;
+        }
       } catch (e) {
         console.error('handleAddFavorites error', e);
       } finally {
@@ -210,6 +213,10 @@ export default (Vue as TIndexPage).extend({
       try {
         this.StartLoadingAdditional();
         await this.$api.WebixController.deleteFavorites(id);
+        const item = this.tableData.find((it) => it.productWbId === id);
+        if (item) {
+          item.isFavorite = false;
+        }
       } catch (e) {
         console.error('handleAddFavorites error', e);
       } finally {
