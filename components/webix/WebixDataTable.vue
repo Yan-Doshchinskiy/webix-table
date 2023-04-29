@@ -253,6 +253,7 @@ export default Vue.extend({
       }
       this.webixElement.clearAll();
       this.webixElement.parse(value, 'json');
+      this.webixElement.filterByAll();
     },
     switchTableLoading(status: TLoadingStatus) {
       if (!this.webixElement) {

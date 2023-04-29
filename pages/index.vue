@@ -54,7 +54,7 @@ import Vue from 'vue';
 import UiButton from '~/components/ui/UiButton.vue';
 import UiCheckbox from '~/components/ui/UiCheckbox.vue';
 import UiInputSearch from '~/components/ui/UiInputSearch.vue';
-import WebixDataTable, { TTableSortDirection } from '~/components/webix/WebixDataTable.vue';
+import WebixDataTable from '~/components/webix/WebixDataTable.vue';
 
 import Debouncer from '~/mixins/Debouncer';
 import LoadingAdditional from '~/mixins/LoadingAdditional';
@@ -67,13 +67,14 @@ import { getTableFavoriteCellTemplate } from '~/core/webix/TableFavoritesCell';
 
 import { MODAL_TYPE } from '~/store/types/main';
 
-import type { VueConstructor } from 'vue';
 import type {
+  TTableSortDirection,
   TTableConfigProps,
   ITableListeners,
   IWebixTableHeader,
   TTableElementVisibility
 } from '~/components/webix/WebixDataTable.vue';
+import type { VueConstructor } from 'vue';
 import type { ICheckboxOptions, TCheckboxOptionsArray } from '~/components/ui/UiCheckbox.vue';
 import type {
   ITableFetchOptions,
