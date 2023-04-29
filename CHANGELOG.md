@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.2.1...v1.2.2) (2023-04-29)
+
+
+### Bug Fixes
+
+* **main-table:** apply filters after fetching ([74b0781](https://github.com/Yan-Doshchinskiy/webix-table/commit/74b078168ce3efa57c639b4a1011c8d19029f06b))
+* **main-table:** changed image-cell styles, thereby fixing the functionality of favorites ([4ff3a82](https://github.com/Yan-Doshchinskiy/webix-table/commit/4ff3a8224e75886f48ee1581ed77bfd1b6b41b14))
+
+
+### Style changes
+
+* **main-table:** html word spacing set to default ([922f0d0](https://github.com/Yan-Doshchinskiy/webix-table/commit/922f0d023438e9e302754aa97ffc35749c437e2c))
+
+
+### Refactor
+
+* **main-table:** favorite logic refactoring ([74bdc48](https://github.com/Yan-Doshchinskiy/webix-table/commit/74bdc489faab31485e064ec11ef8488772a51838))
+
 ### [1.2.1](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.2.0...v1.2.1) (2023-04-28)
 
 
