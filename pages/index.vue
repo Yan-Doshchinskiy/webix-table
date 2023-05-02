@@ -137,11 +137,14 @@ export default (Vue as TIndexPage).extend({
     };
   },
   computed: {
+    favoritesValue(): TTableItemFavorite {
+      return this.favoriteCheckboxModel.some(({ value }) => value === 'f') ? 'f' : 'n';
+    },
     fetchOptions(): ITableFetchOptions {
       return {
         searchFields: this.searchFields,
         search: this.search,
-        favorites: this.favoriteCheckboxModel.some(({ value }) => value === 'f') ? 'f' : 'n',
+        favorites: this.favoritesValue,
         sortField: this.sortField,
         sortDirection: this.sortDirection
       };
@@ -214,6 +217,10 @@ export default (Vue as TIndexPage).extend({
       try {
         this.StartLoadingAdditional();
         await this.$api.WebixController.deleteFavorites(id);
+        if (this.favoritesValue === 'f') {
+          this.tableData = this.tableData.filter((it) => it.productWbId !== id);
+          return;
+        }
         const item = this.tableData.find((it) => it.productWbId === id);
         if (item) {
           item.isFavorite = false;
