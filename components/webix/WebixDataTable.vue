@@ -139,13 +139,7 @@ export default Vue.extend({
     headers: {
       deep: true,
       handler(value: Array<IWebixTableHeader>) {
-        this.resetColumns(value);
-      }
-    },
-    tableData: {
-      deep: true,
-      handler(value: TTableItemsArray) {
-        this.resetRows(value);
+        this.updateColumns(value);
       }
     }
   },
@@ -231,14 +225,14 @@ export default Vue.extend({
     },
     resetTable() {
       try {
-        this.resetColumns(this.headers);
-        this.resetRows(this.tableData);
+        this.updateColumns(this.headers);
+        this.updateRows(this.tableData);
         this.emitResetTable();
       } catch (e) {
         console.error('resetTable error', e);
       }
     },
-    resetColumns(value: Array<IWebixTableHeader>) {
+    updateColumns(value: Array<IWebixTableHeader>) {
       if (!this.webixElement) {
         return;
       }
@@ -247,13 +241,31 @@ export default Vue.extend({
       this.webixElement.config.columns = this.localHeaders;
       this.webixElement.refreshColumns();
     },
-    resetRows(value: TTableItemsArray) {
+    updateRows(value: TTableItemsArray) {
       if (!this.webixElement) {
         return;
       }
       this.webixElement.clearAll();
       this.webixElement.parse(value, 'json');
       this.webixElement.filterByAll();
+    },
+    updateSingleRow(findCb: (obj: Record<string, any>) => boolean, data: Record<string, any>) {
+      if (!this.webixElement) {
+        return;
+      }
+      const [element] = this.webixElement.find(findCb);
+      if (element) {
+        this.webixElement.updateItem(element.id, data);
+      }
+    },
+    removeSingleRow(findCb: (obj: Record<string, any>) => boolean) {
+      if (!this.webixElement) {
+        return;
+      }
+      const [element] = this.webixElement.find(findCb);
+      if (element) {
+        this.webixElement.remove(element.id);
+      }
     },
     switchTableLoading(status: TLoadingStatus) {
       if (!this.webixElement) {
