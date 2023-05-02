@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.3](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.2.2...v1.2.3) (2023-05-02)
+
+
+### Features
+
+* **main-table:** remove from favroites logic reworked ([1d371f3](https://github.com/Yan-Doshchinskiy/webix-table/commit/1d371f359185daeeb6e67cda46d9e10edf3c82ec))
+
+
+### Refactor
+
+* **main-table:** favorites logic reworked ([b70abe5](https://github.com/Yan-Doshchinskiy/webix-table/commit/b70abe585568b50d60b64e2a6faf8107268529fc))
+* **main-table:** webix-table row updating logic reworked ([0d0ce9f](https://github.com/Yan-Doshchinskiy/webix-table/commit/0d0ce9feeb3220ef0b21705db09d188720d89824))
+
 ### [1.2.2](https://github.com/Yan-Doshchinskiy/webix-table/compare/v1.2.1...v1.2.2) (2023-04-29)
 
 
