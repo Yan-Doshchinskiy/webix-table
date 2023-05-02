@@ -182,21 +182,23 @@ export default (Vue as TIndexPage).extend({
   },
   methods: {
     async fetchTableItems(options: Partial<ITableFetchOptions>): Promise<void> {
-      const ref = this.$refs[TABLE_REF_KEY];
+      const tableRef = this.$refs[TABLE_REF_KEY];
       try {
         // @ts-ignore // TODO add ref types
-        ref.switchTableLoading('loading');
+        tableRef.switchTableLoading('loading');
         this.StartLoadingLocal();
         this.tableData = await this.$api.WebixController.fetchTableItems({
           ...this.fetchOptions,
           ...options
         });
+        // @ts-ignore
+        tableRef.updateRows(this.tableData);
       } catch (e) {
         console.error('fetchTableItems error', e);
       } finally {
         this.FinishLoadingLocal();
         // @ts-ignore // TODO add ref types
-        ref.switchTableLoading('none');
+        tableRef.switchTableLoading('none');
       }
     },
     async handleAddFavorites(id: string): Promise<void> {
@@ -207,6 +209,9 @@ export default (Vue as TIndexPage).extend({
         if (item) {
           item.isFavorite = true;
         }
+        const tableRef = this.$refs[TABLE_REF_KEY];
+        // @ts-ignore
+        tableRef.updateSingleRow((obj: IWebixTableItem) => obj === item, item);
       } catch (e) {
         console.error('handleAddFavorites error', e);
       } finally {
@@ -217,14 +222,19 @@ export default (Vue as TIndexPage).extend({
       try {
         this.StartLoadingAdditional();
         await this.$api.WebixController.deleteFavorites(id);
+        const tableRef = this.$refs[TABLE_REF_KEY];
         if (this.favoritesValue === 'f') {
           this.tableData = this.tableData.filter((it) => it.productWbId !== id);
+          // @ts-ignore
+          tableRef.removeSingleRow((obj: IWebixTableItem) => obj.productWbId === id);
           return;
         }
         const item = this.tableData.find((it) => it.productWbId === id);
         if (item) {
           item.isFavorite = false;
         }
+        // @ts-ignore
+        tableRef.updateSingleRow((obj: IWebixTableItem) => obj === item, item);
       } catch (e) {
         console.error('handleAddFavorites error', e);
       } finally {
