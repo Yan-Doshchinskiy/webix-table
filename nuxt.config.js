@@ -45,7 +45,13 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/style-resources',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    [
+      '~/modules/serverLogger',
+      {
+        enabled: true
+      }
+    ]
   ],
 
   i18n: {
