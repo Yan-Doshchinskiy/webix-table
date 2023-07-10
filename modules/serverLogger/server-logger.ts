@@ -65,9 +65,13 @@ function serverLoggerMiddleware(
   const fullPath = `https://${req.headers.host}${req.url}`;
   const url = new URL(fullPath);
 
-  const message = _createLogMessageMessage(ip, url, res.statusCode, req.method);
+  const message = _createLogMessage(ip, url, res.statusCode, req.method);
+  const formattedMessage = _formatMessage(message);
 
   // логируем нужную информацию
+  console.log(formattedMessage);
+
+  // логируем в читаемом виде
   console.table(message);
 
   // переходим к следующей serverMiddleware
@@ -77,7 +81,7 @@ function serverLoggerMiddleware(
 /**
  * Создает сообщение для логирования
  */
-function _createLogMessageMessage(
+function _createLogMessage(
   ip: string,
   url: URL,
   status?: number,
@@ -96,6 +100,19 @@ function _createLogMessageMessage(
     host: url.host,
     query: url.search
   };
+}
+
+/**
+ * форматирует сообщение для вывода stdout
+ */
+function _formatMessage(
+  message: LoggerMessage
+): string {
+  return Object.entries(message).reduce((acc, rec) => {
+    const [key, value] = rec;
+    const item = `[${key}]: {${value}} `;
+    return `${acc}${item}`;
+  }, '');
 }
 
 export default serverLoggerMiddleware;
